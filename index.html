@@ -10,10 +10,9 @@
         :root {
             --primary-jff: #1e646e; 
             --accent-jff: #f1b74a; 
-            --glass-bg: rgba(255, 253, 249, 0.94);
+            --glass-bg: rgba(255, 253, 249, 0.96);
         }
         
-        /* Generic "Bridge Ambience" Redesign */
         body { 
             background: linear-gradient(135deg, #e0e7ff 0%, #fef3c7 50%, #d1fae5 100%);
             background-attachment: fixed;
@@ -22,28 +21,20 @@
             min-height: 100vh;
         }
 
-        /* Subtle overlay to mimic the mist/softness of the bridge image */
-        body::before {
-            content: "";
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.4) 100%);
-            pointer-events: none; z-index: -1;
-        }
-
         .content-overlay {
             background-color: var(--glass-bg);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
         }
 
         .tab-btn.active { border-color: var(--primary-jff); color: var(--primary-jff); font-weight: 600; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        #jitsi-box.compact { height: 100px; overflow: hidden; }
-        #jitsi-container { height: 600px; width: 100%; }
+        #jitsi-box.compact { height: 120px; overflow: hidden; }
+        #jitsi-container { height: 500px; width: 100%; }
         
-        .forum-msg { border-left: 4px solid var(--primary-jff); background: white; margin-bottom: 1rem; padding: 1rem; border-radius: 0.5rem; }
+        .forum-msg { border-left: 4px solid var(--primary-jff); background: white; margin-bottom: 0.75rem; padding: 0.75rem; border-radius: 0.5rem; }
     </style>
 </head>
 <body class="p-0 m-0">
@@ -51,21 +42,26 @@
 <header class="content-overlay p-4 shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md">
-                <img src="FWWLogoMain.jpg" alt="JFF Logo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/64?text=JFF'">
+            <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+                <img src="FWWLogoMain.jpg" alt="JFF Logo" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/64?text=JFF'">
             </div>
             <div>
                 <h1 class="text-xl font-bold text-stone-800">Jesus Friendship Fellowship</h1>
                 <p class="text-xs italic text-stone-500">a closer friendship with Jesus</p>
             </div>
         </div>
-        <div class="hidden md:block">
-            <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic" width="300" height="30" frameborder="0"></iframe>
+        <div class="flex items-center gap-4">
+            <a href="https://wa.me/2349031167282" target="_blank" class="flex items-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-emerald-600 transition">
+                <span>WhatsApp</span>
+            </a>
+            <div class="hidden lg:block">
+                <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic&autoplay=1" width="300" height="30" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 </header>
 
-<main class="max-w-6xl mx-auto px-4 py-10 space-y-12">
+<main class="max-w-7xl mx-auto px-4 py-10 space-y-10">
     
     <section class="content-overlay p-6 rounded-2xl shadow-lg border border-stone-100">
         <h2 class="text-lg font-semibold mb-4 text-stone-700">Prayer Requests</h2>
@@ -76,56 +72,51 @@
         </form>
     </section>
 
-    <section class="content-overlay p-8 rounded-2xl shadow-xl border border-stone-100">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-light text-stone-800">Bible Study Hub</h2>
+    <section class="content-overlay p-6 rounded-2xl shadow-xl border border-stone-100">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold text-stone-800">Bible Study Hub</h2>
             <div class="flex gap-2">
-                <button onclick="openTab('step')" class="tab-btn active px-4 py-2 text-sm">Primary (STEP)</button>
-                <button onclick="openTab('extra')" class="tab-btn px-4 py-2 text-sm">Extra Tools</button>
+                <button onclick="openTab('step')" class="tab-btn active px-4 py-1 text-sm border-b-2">STEP Bible</button>
+                <button onclick="openTab('extra')" class="tab-btn px-4 py-1 text-sm border-b-2 text-stone-400">Extra Tools</button>
             </div>
         </div>
-        
         <div id="step" class="tab-content active h-[600px] rounded-lg overflow-hidden border">
             <iframe src="https://www.stepbible.org/?q=version=ESV|reference=John.1" class="w-full h-full"></iframe>
         </div>
-        
         <div id="extra" class="tab-content h-[600px] rounded-lg overflow-hidden border">
             <iframe src="https://netbible.org/bible/John+1" class="w-full h-full"></iframe>
         </div>
     </section>
 
-    <section class="content-overlay p-8 rounded-2xl shadow-xl border border-stone-100">
-        <div class="text-center mb-8">
-            <h2 class="text-2xl font-light text-stone-800">Community Forum</h2>
-            <p class="text-stone-500 text-sm">A private space for JFF members. No external sign-up required.</p>
-        </div>
-
-        <div id="forum-login-gate" class="max-w-md mx-auto p-6 bg-white rounded-xl shadow-inner border border-stone-100">
-            <h3 class="text-center font-medium mb-4">Identify for this Session</h3>
-            <input type="text" id="user-handle" placeholder="Enter your JFF Username" class="w-full p-2 mb-3 border rounded-lg text-sm">
-            <button onclick="loginToJFF()" class="w-full bg-[#f1b74a] text-white py-2 rounded-lg font-bold">Enter Forum</button>
-        </div>
-
-        <div id="forum-main" class="hidden space-y-4">
-            <div class="flex gap-2 mb-6">
-                <textarea id="forum-input" placeholder="Share a reflection or study note..." class="flex-1 p-3 border rounded-xl text-sm h-20 bg-white"></textarea>
-                <button onclick="postToForum()" class="bg-[#1e646e] text-white px-6 rounded-xl font-bold">Post</button>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <section class="content-overlay p-6 rounded-2xl shadow-xl border border-stone-100 flex flex-col">
+            <h2 class="text-xl font-semibold mb-4 text-stone-800">Community Forum</h2>
+            <div id="forum-login-gate" class="p-4 bg-white rounded-xl shadow-inner border border-stone-100 mb-4">
+                <input type="text" id="user-handle" placeholder="Set your Fellowship Handle" class="w-full p-2 mb-3 border rounded-lg text-sm">
+                <button onclick="loginToJFF()" class="w-full bg-[#f1b74a] text-white py-2 rounded-lg font-bold">Join Discussion</button>
             </div>
-            <div id="forum-posts" class="space-y-4 max-h-[400px] overflow-y-auto">
-                <div class="forum-msg">
-                    <p class="text-sm text-stone-600 italic">Welcome to the JFF Forum. Start a conversation above.</p>
+            <div id="forum-main" class="hidden flex-1 flex flex-col">
+                <div id="forum-posts" class="flex-1 space-y-4 max-h-[350px] overflow-y-auto mb-4 pr-2">
+                    <div class="forum-msg"><p class="text-xs text-stone-400 italic text-center">Fellowship reflections appear here.</p></div>
+                </div>
+                <div class="flex gap-2">
+                    <input id="forum-input" placeholder="Share a word..." class="flex-1 p-2 border rounded-lg text-sm bg-white">
+                    <button onclick="postToForum()" class="bg-[#1e646e] text-white px-4 py-2 rounded-lg font-bold text-sm">Post</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="jitsi-box" class="card bg-stone-900 rounded-2xl shadow-xl border border-stone-200 compact transition-all duration-500 overflow-hidden">
-        <div id="jitsi-placeholder" class="py-10 text-center">
-            <h2 class="text-white font-light mb-4">Video Fellowship Hall</h2>
-            <button onclick="expandJitsi()" class="bg-[#f1b74a] text-white px-8 py-3 rounded-full font-bold">Open Meeting Room</button>
-        </div>
-        <div id="jitsi-container"></div>
-    </section>
+        <section id="jitsi-box" class="content-overlay p-6 rounded-2xl shadow-xl border border-stone-100 compact transition-all duration-500 overflow-hidden">
+            <h2 class="text-xl font-semibold mb-4 text-stone-800">Video Meetings</h2>
+            <div id="jitsi-placeholder" class="text-center py-6">
+                <p class="text-sm text-stone-500 mb-4">Click below to enter the live fellowship hall.</p>
+                <button onclick="expandJitsi()" class="bg-[#f1b74a] text-white px-6 py-2 rounded-full font-bold shadow-md">Enter Meeting Hall</button>
+            </div>
+            <div id="jitsi-container"></div>
+        </section>
+
+    </div>
 </main>
 
 <script>
@@ -136,23 +127,35 @@
         event.currentTarget.classList.add('active');
     }
 
+    // Moderatable Jitsi Hall
     function expandJitsi() {
         document.getElementById('jitsi-box').classList.remove('compact');
         document.getElementById('jitsi-placeholder').style.display = 'none';
-        new JitsiMeetExternalAPI("meet.jit.si", {
-            roomName: "JFF_Private_Fellowship_Hall",
+        const domain = "meet.jit.si";
+        const options = {
+            roomName: "JFF_Main_Fellowship_2026",
+            width: '100%',
+            height: 500,
             parentNode: document.querySelector('#jitsi-container'),
-            width: '100%', height: 600
-        });
+            configOverwrite: { 
+                prejoinPageEnabled: true,
+                startWithAudioMuted: true,
+                startWithVideoMuted: true
+            },
+            interfaceConfigOverwrite: {
+                TOOLBAR_BUTTONS: ['microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen', 'fodeviceselection', 'hangup', 'profile', 'chat', 'recording', 'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand', 'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts', 'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone', 'security']
+            }
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
     }
 
-    // Community Forum Logic (Internal JFF ID)
+    // Community Forum
     let currentUser = null;
     function loginToJFF() {
         const handle = document.getElementById('user-handle').value;
-        if (handle.trim().length < 2) return alert("Please enter a valid username.");
+        if (handle.trim().length < 2) return alert("Please set a handle.");
         currentUser = handle;
-        document.getElementById('forum-login-gate').classList.add('hidden');
+        document.getElementById('forum-login-gate').style.display = 'none';
         document.getElementById('forum-main').classList.remove('hidden');
     }
 
@@ -162,14 +165,14 @@
         const container = document.getElementById('forum-posts');
         const post = document.createElement('div');
         post.className = 'forum-msg';
-        post.innerHTML = `<p class='text-stone-800 font-medium'>${currentUser}</p><p class='text-stone-700 text-sm'>${msg}</p><p class='text-[10px] text-stone-400 mt-1'>Just now</p>`;
+        post.innerHTML = `<p class='text-[10px] font-bold text-[#1e646e] uppercase'>${currentUser}</p><p class='text-sm text-stone-700'>${msg}</p>`;
         container.prepend(post);
         document.getElementById('forum-input').value = '';
     }
 
     document.getElementById('prayerForm').onsubmit = (e) => {
         e.preventDefault();
-        alert("Prayer request sent to the fellowship wall.");
+        alert("Prayer request shared.");
         e.target.reset();
     };
 </script>
