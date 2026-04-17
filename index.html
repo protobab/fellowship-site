@@ -4,73 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jesus Friendship Fellowship</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src='https://meet.jit.si/external_api.js'></script>
-</head>
-<body class="bg-stone-50 text-stone-800 font-serif">
-
-    <header class="p-8 text-center bg-white border-b border-stone-200">
-        <h1 class="text-3xl font-light tracking-widest uppercase">Jesus Friendship Fellowship</h1>
-        <p class="italic mt-2 text-stone-500">"Where two or three are gathered in my name..."</p>
-    </header>
-
-    <main class="max-w-4xl mx-auto p-6 space-y-12">
-        
-        <section id="bible-study" class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
-            <h2 class="text-2xl mb-4">Daily Bread & Study</h2>
-            <div class="flex gap-2 mb-4">
-                <input id="bible-ref" type="text" placeholder="e.g. John 3:16" class="border p-2 flex-grow rounded">
-                <button onclick="fetchScripture()" class="bg-stone-800 text-white px-6 py-2 rounded hover:bg-stone-700">Read</button>
-            </div>
-            <div id="bible-display" class="prose italic text-lg text-stone-700 min-h-[100px]">
-                Search a verse to begin your reflection...
-            </div>
-            <textarea placeholder="Write your private notes here (Saved locally)..." id="user-notes" class="w-full mt-4 p-4 border rounded bg-stone-50 h-32"></textarea>
-        </section>
-
-        <section id="fellowship-hall" class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
-            <h2 class="text-2xl mb-2">Fellowship Hall</h2>
-            <p class="mb-4 text-stone-600">Join our live prayer and discussion room below.</p>
-            <div id="jitsi-container" class="w-full h-[500px] bg-stone-200 rounded"></div>
-        </section>
-
-    </main>
-
-    <script>
-        // BIBLE ENGINE
-        async function fetchScripture() {
-            const ref = document.getElementById('bible-ref').value.toLowerCase().replace(/ /g, '/');
-            const display = document.getElementById('bible-display');
-            display.innerText = "Loading Word...";
-            try {
-                // Using wldeh Bible API (KJV)
-                const res = await fetch(`https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/en-kjv/books/${ref}.json`);
-                const data = await res.json();
-                display.innerText = `"${data.text}"`;
-            } catch (e) {
-                display.innerText = "Verse not found. Try format: 'John/3/16'";
-            }
+    <style>
+        :root {
+            --primary-blue: #1a3a5f;
+            --accent-gold: #d4af37;
+            --text-light: #f4f4f4;
+            --text-dark: #333;
         }
 
-        // JITSI SETUP
-        const domain = "meet.jit.si";
-        const options = {
-            roomName: "JesusFriendshipFellowship_Global",
-            parentNode: document.querySelector('#jitsi-container'),
-            interfaceConfigOverwrite: { TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat', 'raisehand'] }
-        };
-        const api = new JitsiMeetExternalAPI(domain, options);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #fafafa;
+        }
 
-        // LOCAL NOTES SAVING
-        const notes = document.getElementById('user-notes');
-        notes.value = localStorage.getItem('my_fellowship_notes') || "";
-        notes.oninput = () => localStorage.setItem('my_fellowship_notes', notes.value);
-    </script>
+        header {
+            background-color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-    <script>
-    window.chatbaseConfig = { chatbotId: "YOUR_CHATBOT_ID" };
-    </script>
-    <script src="https://www.chatbase.co/embed.min.js" chatbotId="YOUR_CHATBOT_ID" defer></script>
+        /* --- SVG LOGO STYLING --- */
+        .logo-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            margin-top: 0;
+        }
+
+        /* --- RADIO PLAYER --- */
+        .audio-player {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* --- SOCIAL BUTTONS --- */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="45" fill="none" stroke="#d4af37" stroke-width="3" stroke-dasharray="8 4"/>
+            <path d="M60 25 V95 M35 45 H85" stroke="#1a3a5f" stroke-width="8" stroke-linecap="round"/>
+            
+            <text x="120" y="50" font-family="Arial, sans-serif" font-weight="800" font-size="28" fill="#1a3a5f">JESUS</text>
+            <text x="120" y="80" font-family="Arial, sans-serif" font-weight="400" font-size="22" fill="#333">FRIENDSHIP</text>
+            <text x="120" y="105" font-family="Arial, sans-serif" font-weight="300" font-size="18" fill="#d4af37" letter-spacing="3">FELLOWSHIP</text>
+        </svg>
+    </div>
+</header>
+
+<main class="main-content">
+    
+    <section class="card">
+        <h2>Live Radio Stream</h2>
+        <p>Listen to our live broadcast below:</p>
+        <audio controls class="audio-player">
+            <source src="https://azuracast-nuremberg.myautodj.com/hls/station_8321_1775290855/live.m3u8" type="application/x-mpegURL">
+            Your browser does not support the audio element.
+        </audio>
+    </section>
+
+    <section class="card">
+        <h2>Connect With Us</h2>
+        <p>Join our community and stay updated with our latest activities.</p>
+        <div class="social-links">
+            <a href="https://wa.me/2349031167282" class="btn btn-whatsapp" target="_blank">WhatsApp</a>
+            <a href="https://instagram.com/livesinmotion26" class="btn btn-instagram" target="_blank">Instagram</a>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    &copy; 2026 Jesus Friendship Fellowship. All Rights Reserved.
+</footer>
 
 </body>
 </html>
