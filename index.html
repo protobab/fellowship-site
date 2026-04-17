@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jesus Friendship Fellowship | A Sanctuary for Study & Prayer</title>
+    <title>Jesus Friendship Fellowship | Study and Know Your God</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src='https://meet.jit.si/external_api.js'></script>
     <style>
         :root {
             --jff-teal: #1e646e;
-            --jff-gold: #f1b74a;
             --jff-mist: rgba(255, 255, 255, 0.98);
         }
 
         body {
             background: radial-gradient(circle at center, #f8fafc 0%, #cbd5e0 100%);
             font-family: 'Inter', system-ui, sans-serif;
-            padding-top: 100px; /* Space for the fixed header */
+            padding-top: 100px;
         }
 
         /* FIXED HEADER */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
             background: var(--jff-mist);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .glass-panel {
@@ -39,46 +36,32 @@
 
         /* COMPANION GUIDE */
         #guide-companion {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         .avatar-body {
             width: 80px; height: 80px;
-            background: white;
-            border-radius: 50%;
+            background: white; border-radius: 50%;
             border: 4px solid var(--jff-teal);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-            cursor: pointer;
+            overflow: hidden; cursor: pointer;
             animation: guide-float 4s infinite ease-in-out;
         }
-
         .avatar-body img { width: 100%; height: 100%; object-fit: cover; }
 
         .speech-bubble {
-            background: white;
-            border-radius: 15px;
-            padding: 10px 15px;
-            margin-bottom: 12px;
-            max-width: 200px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s ease;
-            pointer-events: none;
+            background: white; border-radius: 15px; padding: 10px 15px;
+            margin-bottom: 12px; max-width: 220px; font-size: 0.8rem;
+            font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0; transform: translateY(10px);
+            transition: all 0.4s ease; pointer-events: none;
         }
 
         .guide-active .speech-bubble { opacity: 1; transform: translateY(0); }
-
         @keyframes guide-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .tab-active { border-bottom: 3px solid var(--jff-teal); color: var(--jff-teal); font-weight: bold; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col" onload="initializeFellowship()">
@@ -86,7 +69,7 @@
 <header class="p-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <img src="JFFLogoPic.JPG" alt="Jesus Friendship Fellowship Logo" class="w-14 h-14 rounded-full border-2 border-teal-600">
+            <img src="image_1.png" alt="Jesus Friendship Fellowship Logo" class="w-14 h-14 rounded-full border-2 border-teal-600 shadow-sm">
             <div>
                 <h1 class="text-lg font-bold text-stone-800 tracking-tight leading-none">Jesus Friendship Fellowship</h1>
                 <p class="text-[10px] italic text-teal-700 font-bold uppercase tracking-wider mt-1">a closer friendship with Jesus</p>
@@ -94,19 +77,16 @@
         </div>
         
         <div class="flex items-center gap-4">
-            <div class="hidden md:flex items-center gap-2 bg-stone-100 px-3 py-1 rounded-full border border-stone-200">
-                <span class="text-[9px] font-bold text-teal-800 uppercase">Live Radio</span>
-                <audio controls class="h-6 w-40">
-                    <source src="https://azuracast-nuremberg.myautodj.com/hls/station_8321_1775290855/live.m3u8" type="application/x-mpegURL">
-                </audio>
+            <div class="hidden md:block">
+                <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic" width="180" height="25" frameborder="0"></iframe>
             </div>
-            <a href="https://wa.me/447401185572" target="_blank" class="bg-emerald-600 text-white px-5 py-2 rounded-full text-xs font-bold shadow-md hover:bg-emerald-700 transition">Prayer</a>
+            <a href="https://wa.me/447401185572" target="_blank" class="bg-emerald-600 text-white px-5 py-2 rounded-full text-xs font-bold shadow-md hover:bg-emerald-700 transition">Prayer Line</a>
         </div>
     </div>
 </header>
 
 <div id="guide-companion">
-    <div id="guide-bubble" class="speech-bubble">Welcome to the Fellowship...</div>
+    <div id="guide-bubble" class="speech-bubble">"Study and Know Your God..."</div>
     <div class="avatar-body" onclick="triggerGuideSpeech('welcome')">
         <img src="https://ui-avatars.com/api/?name=JFF+Guide&background=1e646e&color=fff" alt="Fellowship Guide">
     </div>
@@ -114,23 +94,32 @@
 
 <main class="max-w-7xl mx-auto px-4 md:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
     
-    <div class="lg:col-span-8 space-y-6">
+    <div class="lg:col-span-8 space-y-4">
+        <div class="flex items-center justify-between bg-white/50 p-2 rounded-t-xl border-b">
+            <h2 class="text-sm font-bold text-teal-800 px-4 uppercase tracking-widest">Study and Know Your God</h2>
+            <div class="flex gap-4 text-xs">
+                <button id="tab-parallel" onclick="switchTool('parallel')" class="pb-1 tab-active">NKJV | KJV Parallel</button>
+                <button id="tab-step" onclick="switchTool('step')" class="pb-1 text-stone-400 hover:text-teal-600">Full STEP Bible</button>
+            </div>
+        </div>
+        
         <section class="glass-panel overflow-hidden border shadow-inner bg-white">
             <div class="h-[750px]">
-                <iframe id="bible-iframe" src="https://www.stepbible.org/?q=version=ESV|reference=John.1" class="w-full h-full border-none"></iframe>
+                <iframe id="study-iframe" src="https://www.stepbible.org/?q=version=NKJV&version=KJV|reference=John.1" class="w-full h-full border-none"></iframe>
             </div>
         </section>
     </div>
 
     <div class="lg:col-span-4 space-y-6">
         
-        <section class="glass-panel p-6 border-t-4 border-teal-600 bg-white/90">
-            <h3 class="text-xs font-bold text-teal-700 uppercase mb-2 tracking-widest">Daily Friendship Focus</h3>
-            <p id="focus-verse-text" class="text-lg font-serif italic text-stone-800">"I have called you friends..."</p>
-            <p class="text-xs text-stone-500 mt-2 mb-4 leading-relaxed">Jesus invites you into a partnership of transparency. Let the Word illuminate your friendship with Him today.</p>
-            <button onclick="linkFocusToBible('John.15.15')" class="w-full bg-teal-50 text-teal-700 py-2 rounded-lg text-xs font-bold border border-teal-100 hover:bg-teal-100 transition">
-                Open John 15:15 in Study Hub
-            </button>
+        <section class="glass-panel p-6 bg-blue-50 border-t-4 border-blue-500">
+            <h3 class="text-xs font-bold text-blue-800 uppercase mb-2 tracking-widest">Live Fellowship Hall</h3>
+            <p class="text-sm font-bold text-stone-800">Next Meeting: Apr 17, 2026</p>
+            <p class="text-xs text-stone-500 mb-4">06:00 PM London Time</p>
+            <a href="https://us06web.zoom.us/meeting/register/WP5ilOUZTXOy1dBly1lZOg" target="_blank" class="block w-full text-center bg-blue-600 text-white py-3 rounded-xl font-bold text-xs hover:bg-blue-700 shadow-md transition">
+                Register for Zoom Meeting
+            </a>
+            <p class="text-[10px] text-blue-600 mt-2 text-center italic">Register to receive your unique join link.</p>
         </section>
 
         <section class="glass-panel p-6 border-t-4 border-amber-400 bg-amber-50/10">
@@ -138,69 +127,67 @@
             <button id="voice-btn" onclick="toggleVoiceJournal()" class="w-full py-3 bg-white border border-amber-200 rounded-xl text-xs font-bold text-amber-900 shadow-sm hover:bg-amber-100 transition mb-3">
                 🎙 Begin Spoken Reflection
             </button>
-            <textarea id="journal-out" placeholder="The Guide will transcribe your words here..." class="w-full h-40 p-4 rounded-xl border-none text-sm bg-white/80 shadow-inner focus:ring-1 ring-amber-300"></textarea>
+            <textarea id="journal-out" placeholder="Spoken words transcribe here..." class="w-full h-40 p-4 rounded-xl border-none text-sm bg-white/80 shadow-inner focus:ring-1 ring-amber-300"></textarea>
             <div class="flex gap-2 mt-3">
-                <button onclick="alert('Entry Saved Locally')" class="flex-1 bg-teal-800 text-white py-2 rounded-lg text-[10px] font-bold uppercase">Store Journal</button>
-                <button onclick="downloadNote()" class="px-4 bg-stone-200 text-stone-700 py-2 rounded-lg text-[10px] font-bold uppercase">Export .txt</button>
+                <button onclick="downloadNote()" class="w-full bg-stone-800 text-white py-2 rounded-lg text-[10px] font-bold uppercase">Export Reflection</button>
             </div>
         </section>
 
-        <section class="glass-panel p-6 bg-stone-900 text-white">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-teal-400 mb-4">Live Video Hall</h2>
-            <button onclick="initMeeting()" class="w-full py-3 bg-teal-600 rounded-xl font-bold text-xs hover:bg-teal-500 transition">Enter Fellowship Meeting</button>
-            <div id="jitsi-container" class="mt-4"></div>
+        <section class="glass-panel p-6 border-t-4 border-teal-600">
+            <h3 class="text-xs font-bold text-teal-700 uppercase mb-2 tracking-widest">Daily Friendship Focus</h3>
+            <p class="text-lg font-serif italic text-stone-800">"I have called you friends..."</p>
+            <button onclick="linkFocus('John.15.15')" class="mt-4 w-full bg-teal-50 text-teal-700 py-2 rounded-lg text-xs font-bold border border-teal-100">Study John 15:15</button>
         </section>
     </div>
 </main>
 
-<footer class="mt-12 py-10 px-8 glass-panel rounded-none border-t">
+<footer class="mt-12 py-10 px-8 glass-panel rounded-none border-t text-center">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-stone-400">
         <p>© 2026 Jesus Friendship Fellowship</p>
         <div class="flex gap-8">
             <button onclick="alert('Terms: Walk in Love.')">Terms</button>
-            <button onclick="alert('Privacy: Your reflections are stored only on your device.')">Privacy</button>
             <a href="https://donate.stripe.com/9B64gB2SR5vn3Fk1z3ebu00" target="_blank" class="text-teal-700">❤ Give a Gift</a>
         </div>
     </div>
 </footer>
 
 <script>
-    // --- BIBLE LINKING LOGIC ---
-    function linkFocusToBible(reference) {
-        const iframe = document.getElementById('bible-iframe');
-        iframe.src = `https://www.stepbible.org/?q=version=ESV|reference=${reference}`;
-        iframe.scrollIntoView({ behavior: 'smooth' });
-        triggerGuideSpeech('study');
+    function switchTool(tool) {
+        const iframe = document.getElementById('study-iframe');
+        const t1 = document.getElementById('tab-step');
+        const t2 = document.getElementById('tab-parallel');
+        
+        if(tool === 'step') {
+            iframe.src = "https://www.stepbible.org/?q=version=NKJV|reference=John.1";
+            t1.classList.add('tab-active'); t1.classList.remove('text-stone-400');
+            t2.classList.remove('tab-active'); t2.classList.add('text-stone-400');
+        } else {
+            // Parallel NKJV and KJV
+            iframe.src = "https://www.stepbible.org/?q=version=NKJV&version=KJV|reference=John.1";
+            t2.classList.add('tab-active'); t2.classList.remove('text-stone-400');
+            t1.classList.remove('tab-active'); t1.classList.add('text-stone-400');
+        }
     }
 
-    // --- GUIDE LOGIC ---
-    const guideResponses = {
-        welcome: ["Welcome back. I'm so glad we can study together today.", "Peace be with you. Which scripture shall we explore?", "I'm here to help you navigate your friendship with Jesus."],
-        study: ["Excellent choice. Let's look deeper into this passage.", "The Word is alive. Let's see what it says to your heart today.", "I've updated the hub for you. Enjoy your study time."],
-        recording: ["I'm listening. Speak your heart out.", "Capturing your reflections now. This is a holy moment.", "Every word you speak is a step toward clarity."]
-    };
+    function linkFocus(ref) {
+        document.getElementById('study-iframe').src = `https://www.stepbible.org/?q=version=NKJV&version=KJV|reference=${ref}`;
+        triggerGuideSpeech('study');
+    }
 
     function triggerGuideSpeech(context) {
         const bubble = document.getElementById('guide-bubble');
         const container = document.getElementById('guide-companion');
-        const pool = guideResponses[context] || guideResponses.welcome;
-        const text = pool[Math.floor(Math.random() * pool.length)];
-        
-        bubble.innerText = text;
+        bubble.innerText = context === 'study' ? "Comparing translations often reveals deep truths. Enjoy your study." : "Study and Know Your God.";
         container.classList.add('guide-active');
-        
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.rate = 0.95;
+        const msg = new SpeechSynthesisUtterance(bubble.innerText);
         window.speechSynthesis.speak(msg);
-
-        setTimeout(() => { container.classList.remove('guide-active'); }, 7000);
+        setTimeout(() => container.classList.remove('guide-active'), 6000);
     }
 
     function initializeFellowship() {
         setTimeout(() => triggerGuideSpeech('welcome'), 2000);
     }
 
-    // --- VOICE RECOGNITION ---
     let recognition;
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
@@ -218,27 +205,21 @@
         if (btn.innerText.includes("Begin")) {
             recognition.start();
             btn.innerText = "🛑 Stop & Process Voice";
-            btn.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
-            triggerGuideSpeech('recording');
+            btn.classList.add('bg-red-50', 'text-red-800');
         } else {
             recognition.stop();
             btn.innerText = "🎙 Begin Spoken Reflection";
-            btn.classList.remove('bg-red-50', 'text-red-800', 'border-red-200');
-            triggerGuideSpeech('study');
+            btn.classList.remove('bg-red-50', 'text-red-800');
         }
     }
 
     function downloadNote() {
-        const blob = new Blob([document.getElementById('journal-out').value], {type:'text/plain'});
+        const text = document.getElementById('journal-out').value;
+        const blob = new Blob([text], {type:'text/plain'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = "My-JFF-Reflection.txt";
         a.click();
-    }
-
-    function initMeeting() {
-        new JitsiMeetExternalAPI("meet.jit.si", { roomName: "JFF_Fellowship_Hall_2026", width: '100%', height: 400, parentNode: document.getElementById('jitsi-container') });
-        event.target.style.display = 'none';
     }
 </script>
 
