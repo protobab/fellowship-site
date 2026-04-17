@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JFF Sanctuary | Fellowship Without Walls</title>
+    <title>JFF Sanctuary | Jesus Friendship Fellowship</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src='https://meet.jit.si/external_api.js'></script>
     <style>
@@ -13,10 +13,33 @@
             --light-bg: #fffdf9; /* creamy white */
             --text-dark: #333;
         }
-        body { background-color: var(--light-bg); color: var(--text-dark); font-family: 'Inter', system-ui, sans-serif; }
+        
+        /* New Background Image Style */
+        body { 
+            background-color: #eee;
+            background-image: url('image_2.png'); /* The Bridge Image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--text-dark); 
+            font-family: 'Inter', system-ui, sans-serif; 
+        }
+
+        /* Semi-transparent overlays for readability */
+        .content-overlay {
+            background-color: rgba(255, 253, 249, 0.95); /* Light backdrop */
+            backdrop-filter: blur(2px);
+        }
+
         .tab-btn.active { border-color: var(--primary-spiritual); color: var(--primary-spiritual); font-weight: 600; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        
+        /* Jitsi Compact Mode */
+        #jitsi-box.compact { height: 100px; overflow: hidden; }
+        #jitsi-container { height: 600px; width: 100%; }
+        #jitsi-box.compact #jitsi-container { display: none; }
         
         /* Floating AI Bubble - Minimalist */
         #ai-toggle-btn {
@@ -40,77 +63,97 @@
         .ai-input-area { padding: 8px; border-top: 1px solid #eee; display: flex; gap: 5px; }
         #ai-input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; }
         
-        /* Jitsi Compact Mode */
-        #jitsi-box.compact { height: 100px; overflow: hidden; }
-        #jitsi-container { height: 600px; width: 100%; }
-        #jitsi-box.compact #jitsi-container { display: none; }
+        /* Prayer card effect */
+        .prayer-card { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="p-0 m-0 text-sm md:text-base">
 
-<header class="bg-white p-4 md:p-6 shadow-sm border-b border-stone-100 sticky top-0 z-50">
+<header class="content-overlay p-4 md:p-6 shadow-sm border-b border-stone-100 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
             <div class="w-14 h-14 logo-badge flex items-center justify-center overflow-hidden rounded-full border border-stone-100 shadow-inner bg-stone-50">
                 <img src="image_1.png" alt="JFF Logo" class="h-full w-auto object-contain" onerror="this.src='https://via.placeholder.com/60?text=JFF'">
             </div>
             <div>
-                <h1 class="text-xl md:text-2xl font-semibold tracking-tight text-stone-900">JFF Sanctuary</h1>
-                <p class="text-xs md:text-sm font-light text-stone-500 italic">Rooted in Scripture, United in Spirit</p>
+                <h1 class="text-xl md:text-2xl font-semibold tracking-tight text-stone-900">Jesus Friendship Fellowship</h1>
+                <p class="text-xs md:text-sm font-light text-stone-500 italic">a closer friendship with Jesus</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <a href="#bible-study" class="text-xs md:text-sm uppercase tracking-widest text-stone-500 hover:text-stone-900 px-2 py-1">Study</a>
-            <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-500 text-white px-4 py-2 rounded-full text-xs font-bold shadow hover:bg-emerald-600 transition">WhatsApp Prayer</a>
+            <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-500 text-white px-4 py-2 rounded-full text-xs font-bold shadow hover:bg-emerald-600 transition">Message Prayer Team</a>
         </div>
     </div>
 </header>
 
 <main class="max-w-6xl mx-auto px-4 py-8 md:py-12 space-y-16">
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <section class="card bg-white p-5 rounded-2xl shadow border border-stone-100 text-center flex flex-col justify-center">
-            <h2 class="text-lg font-medium mb-3">Hope Radio Live</h2>
-            <audio controls class="w-full h-9">
-                <source src="https://azuracast-nuremberg.myautodj.com/hls/station_8321_1775290855/live.m3u8" type="application/x-mpegURL">
-            </audio>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <section class="card content-overlay p-5 rounded-2xl shadow border border-stone-100 col-span-1 md:col-span-2 text-center">
+            <h2 class="text-lg font-medium mb-3">JFF Radio</h2>
+            <div class="max-w-[400px] mx-auto">
+                <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic" width="100%" height="30" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen style="border: 1px solid #eee; border-radius: 8px; overflow: hidden;"></iframe>
+            </div>
         </section>
 
-        <section class="card bg-white p-5 rounded-2xl shadow border border-stone-100 col-span-1 md:col-span-2">
-            <h2 class="text-lg font-medium mb-3">Confidential Prayer Support</h2>
+        <section class="card content-overlay p-5 rounded-2xl shadow border border-stone-100 col-span-1 md:col-span-2">
+            <h2 class="text-lg font-medium mb-3">Prayer Support Wall</h2>
             <form id="prayerWall" class="flex gap-2">
                 <input type="text" class="prayer-input flex-1 p-2 border border-stone-200 rounded-lg text-sm" placeholder="Name (or Anonymous)">
-                <input type="text" class="prayer-input flex-2 p-2 border border-stone-200 rounded-lg text-sm" placeholder="How can we pray for you?">
-                <button type="submit" class="submit-btn bg-stone-800 text-white px-5 py-2 rounded-lg text-sm font-bold shadow hover:bg-stone-700 transition">Send</button>
+                <input type="text" class="prayer-input flex-2 p-2 border border-stone-200 rounded-lg text-sm" placeholder="Post a request for the community...">
+                <button type="submit" class="submit-btn bg-stone-800 text-white px-5 py-2 rounded-lg text-sm font-bold shadow hover:bg-stone-700 transition">Post</button>
             </form>
         </section>
     </div>
 
     <section id="fellowship" class="space-y-4">
-        <div class="text-center max-w-2xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto content-overlay p-4 rounded-xl shadow-inner border border-stone-100">
             <h2 class="text-2xl font-light text-stone-800">Fellowship Meeting Room</h2>
-            <p class="text-stone-500 font-sans text-sm mt-1">Instant browser meeting. No download, no signup.</p>
+            <p class="text-stone-500 font-sans text-sm mt-1">Instant browser video fellowship. No signup needed.</p>
         </div>
         
         <div id="jitsi-box" class="card bg-stone-950 p-1 rounded-2xl shadow-xl border border-stone-200 compact text-center flex flex-col items-center justify-center transition-all duration-500">
             <div id="jitsi-placeholder" class="py-8 space-y-3">
-                <p class="text-stone-400 text-sm">Join our next live gathering instantly.</p>
+                <p class="text-stone-400 text-sm">Join our next gathering instantly.</p>
                 <button onclick="expandJitsi()" class="bg-[#fca311] text-white px-8 py-3 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition duration-300">Enter Meeting Room</button>
             </div>
             <div id="jitsi-container"></div>
         </div>
     </section>
 
-    <section id="bible-study" class="bg-white p-8 rounded-2xl shadow border border-stone-100">
+    <section id="bible-study" class="content-overlay p-8 rounded-2xl shadow border border-stone-100">
         <h2 class="text-2xl font-light mb-6 text-stone-800">Bible Study Hub</h2>
-        <div class="border-b border-stone-200 flex mb-6 gap-1 text-sm md:text-base">
-            <button onclick="openTab('clean-bible')" class="tab-btn active px-4 py-2 border-b-2 border-transparent">Focused Reader (NET)</button>
-            <button onclick="openTab('youversion')" class="tab-btn px-4 py-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700">Explore Versions (YouVersion)</button>
+        <div class="border-b border-stone-200 flex mb-6 gap-1 text-sm md:text-base overflow-x-auto pb-1">
+            <button onclick="openTab('clean-bible')" class="tab-btn active px-4 py-2 border-b-2 border-transparent whitespace-nowrap">Focused NET Bible (Ad-free)</button>
+            <button onclick="openTab('study-aid')" class="tab-btn px-4 py-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700 whitespace-nowrap">Study Aids Suite</button>
+            <button onclick="openTab('youversion')" class="tab-btn px-4 py-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700 whitespace-nowrap">Explore Versions (Optional)</button>
         </div>
         
         <div id="clean-bible" class="tab-content active bible-container h-[550px] border border-stone-200 rounded-lg overflow-hidden relative">
             <iframe src="https://netbible.org/bible/John+1" class="w-full h-full border-none"></iframe>
-            <div class="absolute bottom-0 left-0 right-0 p-2 text-xs text-stone-500 bg-stone-50 border-t">Powered by NET Bible (Ad-free, no sign-up).</div>
+            <div class="absolute bottom-0 left-0 right-0 p-2 text-xs text-stone-500 bg-stone-50 border-t">Powered by NET Bible (Ad-free, download-free, no sign-up).</div>
+        </div>
+        
+        <div id="study-aid" class="tab-content h-[550px] border border-stone-200 rounded-lg p-6 bg-stone-50/50 space-y-6">
+            <h3 class="text-xl font-medium text-stone-800">Ad-Free Study Resources</h3>
+            <p class="text-stone-600">The resources linked below are from organizations that provide free, ad-free access, requiring no download or login to study the Word deeply.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="https://www.stepbible.org/" target="_blank" class="block p-5 bg-white border border-stone-100 rounded-xl shadow hover:border-stone-200 transition">
+                    <b class="text-jff-brown">STEP Bible</b><br>
+                    <span class="text-xs text-stone-500">Tyndale House - Full text analysis, lexicon, maps.</span>
+                </a>
+                <a href="https://www.blueletterbible.org/commentaries/" target="_blank" class="block p-5 bg-white border border-stone-100 rounded-xl shadow hover:border-stone-200 transition">
+                    <b class="text-jff-brown">Bible Commentary</b><br>
+                    <span class="text-xs text-stone-500">Classic commentaries (MHC, Spurgeon). ad-free reading.</span>
+                </a>
+                <a href="https://www.openbible.info/geo/" target="_blank" class="block p-5 bg-white border border-stone-100 rounded-xl shadow hover:border-stone-200 transition">
+                    <b class="text-jff-brown">Bible Geographics</b><br>
+                    <span class="text-xs text-stone-500">Maps and site photos for context.</span>
+                </a>
+            </div>
+            <p class="text-xs text-stone-400 mt-4">We do not endorse external theological stances; we signpost free study aid capability.</p>
         </div>
         
         <div id="youversion" class="tab-content bible-container h-[550px] border border-stone-200 rounded-lg overflow-hidden">
@@ -118,23 +161,23 @@
         </div>
     </section>
 
-    <section id="community-board" class="bg-white p-8 rounded-2xl shadow border border-stone-100">
+    <section id="community-board" class="content-overlay p-8 rounded-2xl shadow border border-stone-100">
         <div class="text-center max-w-2xl mx-auto mb-8">
-            <h2 class="text-2xl font-light text-stone-800">Sanctuary Guestbook</h2>
-            <p class="text-stone-500 text-sm mt-1">Leave a reflection, study note, or testimony for the fellowship.</p>
+            <h2 class="text-2xl font-light text-stone-800">Fellowship Guestbook</h2>
+            <p class="text-stone-500 text-sm mt-1">Leave a testimony, note, or reflection for the sanctuary.</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="col-span-1 p-5 rounded-xl border border-stone-100 bg-stone-50">
-                <input type="text" id="board-name" class="w-full p-2 mb-2 border border-stone-200 rounded-lg text-sm" placeholder="Name/Handle">
-                <textarea id="board-msg" rows="4" class="w-full p-2 mb-2 border border-stone-200 rounded-lg text-sm" placeholder="Your reflection..."></textarea>
+            <div class="col-span-1 p-5 rounded-xl border border-stone-100 bg-stone-50 shadow-inner content-overlay blur-none">
+                <input type="text" id="board-name" class="w-full p-2 mb-2 border border-stone-200 rounded-lg text-sm bg-white" placeholder="Name/Handle">
+                <textarea id="board-msg" rows="4" class="w-full p-2 mb-2 border border-stone-200 rounded-lg text-sm bg-white" placeholder="Your reflection..."></textarea>
                 <button onclick="postToBoard()" class="w-full bg-stone-800 text-white px-5 py-2 rounded-lg text-sm font-bold shadow hover:bg-stone-700 transition">Post to Board</button>
             </div>
             
             <div id="board-messages" class="col-span-1 md:col-span-3 space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                <div class="bg-white p-4 rounded-lg border border-stone-100 text-sm">
-                    <p class="text-stone-700">Welcome to JFF Sanctuary! Leave a note for everyone to see.</p>
-                    <div class="mt-2 flex gap-3 text-xs text-stone-400"><b>Admin</b> • <span>Just now</span></div>
+                <div class="bg-white/80 p-4 rounded-lg border border-stone-100 text-sm">
+                    <p class="text-stone-700 leading-relaxed">Let's reflect this week on John 15: "I am the vine; you are the branches."</p>
+                    <div class="mt-2 flex gap-3 text-xs text-stone-400"><b>Leadership Team</b> • <span>Just now</span></div>
                 </div>
             </div>
         </div>
@@ -142,7 +185,7 @@
 
 </main>
 
-<footer class="bg-stone-100 p-8 text-center border-t mt-16 text-sm">
+<footer class="bg-stone-100/90 p-8 text-center border-t mt-16 text-sm backdrop-blur-sm">
     <p class="text-stone-600">&copy; 2026 Jesus Friendship Fellowship | Dedicated to the Word and the Spirit.</p>
     <div class="mt-2 text-stone-500">
         <a href="https://instagram.com/livesinmotion26" target="_blank" style="color:#1e646e;">Instagram</a>
@@ -159,10 +202,10 @@
         <button onclick="toggleAI()" class="text-white text-lg">×</button>
     </div>
     <div class="ai-body" id="aiMessages">
-        <p><strong>Guide:</strong> Welcome. How can I assist you in the Sanctuary? Ask about service times, study tips, or search for a verse.</p>
+        <p><strong>Guide:</strong> Welcome to the Sanctuary. How can I assist you today? You can ask about meetings, study tips, or search for a verse.</p>
     </div>
     <div class="ai-input-area">
-        <input type="text" id="ai-input" placeholder="Type or search verse..." onkeypress="handleAIKeypress(event)">
+        <input type="text" id="ai-input" placeholder="Type query or search verse..." onkeypress="handleAIKeypress(event)">
         <button onclick="handleAISend()" class="text-xs font-bold px-3 py-1 bg-[#fca311] text-white rounded">Send</button>
     </div>
 </div>
@@ -173,7 +216,7 @@
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabName).classList.add('active');
-        const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.includes(tabName === 'clean-bible' ? 'Focused' : 'YouVersion'));
+        const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.includes(tabName === 'clean-bible' ? 'Focused' : (tabName === 'study-aid' ? 'Suite' : 'YouVersion')));
         if (activeBtn) activeBtn.classList.add('active');
     }
 
@@ -188,7 +231,7 @@
 
         if (!jitsiInitialized) {
             new JitsiMeetExternalAPI("meet.jit.si", {
-                roomName: "JFF_Global_Fellowship_Hall_Sanctuary",
+                roomName: "JFF_Fellowship_Hall_Sanctuary_Global",
                 parentNode: document.querySelector('#jitsi-container'),
                 configOverwrite: { startWithAudioMuted: true, defaultLocalDisplayName: 'Visitor' },
                 interfaceConfigOverwrite: { TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat', 'raisehand', 'tileview', 'fullscreen'] }
@@ -210,7 +253,7 @@
 
         // Create new post HTML
         const newPostHTML = `
-            <div class="bg-white p-4 rounded-lg border border-stone-100 text-sm shadow-inner prayer-card">
+            <div class="bg-white/90 p-4 rounded-lg border border-stone-100 text-sm shadow-inner prayer-card">
                 <p class="text-stone-700">${msgInput.value}</p>
                 <div class="mt-2 flex gap-3 text-xs text-stone-400"><b>${nameInput.value}</b> • <span>Just now</span></div>
             </div>
@@ -224,10 +267,10 @@
         msgInput.value = '';
     }
 
-    // Prayer form logic
+    // Prayer form logic (Placeholder action)
     document.getElementById('prayerWall').onsubmit = function(e) {
         e.preventDefault();
-        alert("Your request has been sent to the fellowship intercessors.");
+        alert("Your request has been posted to the sanctuary prayer support wall.");
         this.reset();
     };
 
@@ -254,7 +297,7 @@
 
         setTimeout(() => {
             const query = userMsg.toLowerCase();
-            let response = "I am a simple JFF guide. I cannot chat deeply, but I can guide you. Try asking about service times, study tips, or search for a verse.";
+            let response = "I am a simple guide. I cannot chat deeply, but I can guide you. Try asking about meetings, study tips, or search for a verse.";
 
             // 1. Scripture search redirect (matching common verse formats)
             const verseMatch = userMsg.match(/([a-zA-Z\s]+)\s*(\d+):(\d+)/i);
@@ -262,18 +305,18 @@
                 const book = verseMatch[1].trim().replace(/\s+/g, '+');
                 const chapter = verseMatch[2];
                 const verse = verseMatch[3];
-                response = `Looking for <a href="https://netbible.org/bible/${book}+${chapter}:${verse}" target="_blank" style="color:var(--primary-spiritual);"><b>${verseMatch[1]} ${chapter}:${verse}</b></a>. I will open it for you in a new tab.`;
+                response = `Finding <a href="https://netbible.org/bible/${book}+${chapter}:${verse}" target="_blank" style="color:var(--primary-spiritual);"><b>${verseMatch[1]} ${chapter}:${verse}</b></a>. I will open it for you in a new tab. Use our Focused Reader for continuous study.`;
                 window.open(`https://netbible.org/bible/${book}+${chapter}:${verse}`, '_blank');
             } else if (userMsg.toLowerCase().includes("bible")) {
-                 response = "For continuous, ad-free study, use our **Focused Bible Reader** section. You can also switch to **Explore Versions** to see other translations.";
+                 response = "For continuous, ad-free study, use the **Focused NET Bible** tab. To see other versions, use the **Explore Versions** tab.";
+            } else if (userMsg.toLowerCase().includes("radio") || userMsg.toLowerCase().includes("music")) {
+                 response = "Click the Play button on **JFF Radio** at the top of the page.";
             } else if (userMsg.toLowerCase().includes("jitsi") || query.includes("meeting") || query.includes("gathering")) {
-                 response = "To join our next live gathering instantly, click 'Enter Meeting Room' in the **Fellowship Hall** section.";
+                 response = "To join our next gathering instantly, click 'Enter Meeting Room' in the **Fellowship Meeting Room** section.";
             } else if (query.includes("prayer") || query.includes("support")) {
-                 response = "For private prayer support from our leadership team, use the **Confidential Prayer Support** form above.";
-            } else if (query.includes("service times") || query.includes("schedule")) {
-                response = "Fellowship study meetings are held on Jitsi every Sunday at **[Define slot]**. This page always links to the active room.";
-            } else if (query.includes("who are you") || query.includes("what is jff")) {
-                response = "JFF is a digital sanctuary focused on reflective study, community prayer, and uniting in spirit without walls.";
+                 response = "Post on the Community Wall above for everyone to pray, or use the **Message Prayer Team** button to request a private session.";
+            } else if (query.includes("privacy") || query.includes("notes")) {
+                response = "Your notes are saved locally in your browser's LocalStorage. They are never touch our servers.";
             }
 
             addMessage('Guide', response);
