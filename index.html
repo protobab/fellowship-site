@@ -10,21 +10,21 @@
         :root {
             --jff-teal: #1e646e;
             --jff-gold: #f1b74a;
-            --jff-mist: rgba(255, 255, 255, 0.96);
+            --jff-mist: rgba(255, 255, 255, 0.95);
         }
 
         body {
             background-color: #f8fafc;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(241, 183, 74, 0.1) 0%, transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(30, 100, 110, 0.1) 0%, transparent 30%),
-                url('image_2.png');
+            background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url('image_2.png');
             background-attachment: fixed;
             background-size: cover;
             font-family: 'Inter', system-ui, sans-serif;
-            color: #1a202c;
-            overflow-x: hidden;
+            transition: background 0.5s ease;
         }
+
+        /* Study Mode Focus */
+        body.study-focus { background-image: none; background-color: #ffffff; }
+        body.study-focus .sidebar-item { opacity: 0.2; pointer-events: none; }
 
         .glass-panel {
             background: var(--jff-mist);
@@ -33,41 +33,22 @@
             border-radius: 20px;
         }
 
-        /* Scrolling Verse Ticker */
-        .ticker-wrap {
-            width: 100%; height: 40px;
-            background: var(--jff-teal);
-            overflow: hidden;
-            display: flex; align-items: center;
-        }
-        .ticker {
-            display: inline-block;
-            white-space: nowrap;
-            padding-right: 100%;
-            animation: ticker 30s linear infinite;
-            color: white; font-size: 0.85rem; font-weight: 500;
-        }
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
+        /* Sidebar Section Backgrounds */
+        .bg-prayer { background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1544427920-c49ccfb85579?auto=format&fit=crop&q=80&w=400'); background-size: cover; }
+        .bg-reports { background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&q=80&w=400'); background-size: cover; }
+        .bg-hall { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=400'); background-size: cover; }
 
-        /* AI Assistant Style */
-        #ai-bubble {
-            position: fixed; bottom: 80px; right: 25px; z-index: 100;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .ai-pulse {
-            animation: pulse-ring 2s infinite;
-        }
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(30, 100, 110, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(30, 100, 110, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(30, 100, 110, 0); }
-        }
+        /* Ticker */
+        .ticker-wrap { width: 100%; height: 40px; background: var(--jff-teal); overflow: hidden; display: flex; align-items: center; }
+        .ticker { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; color: white; font-size: 0.85rem; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Breath Timer */
+        .breath-circle { width: 100px; height: 100px; border: 4px solid var(--jff-gold); border-radius: 50%; animation: breathe 8s infinite ease-in-out; }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 1; } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col" onclick="initVoice()">
 
 <header class="p-4 md:p-6 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto glass-panel p-4 flex items-center justify-between shadow-sm">
@@ -79,8 +60,9 @@
             </div>
         </div>
         <div class="flex items-center gap-4">
+            <button onclick="toggleStudyMode()" class="text-xs bg-stone-100 px-3 py-1 rounded-full border hover:bg-stone-200 transition">Focus Mode</button>
             <div class="hidden lg:block bg-stone-50 rounded-full px-3 py-1 border border-stone-100">
-                <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic&autoplay=1" width="180" height="25" frameborder="0"></iframe>
+                <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic" width="180" height="25" frameborder="0"></iframe>
             </div>
             <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-emerald-700 transition">WhatsApp Prayer</a>
         </div>
@@ -97,33 +79,39 @@
         </section>
 
         <section class="glass-panel overflow-hidden border">
-            <div class="h-[650px]">
+            <div class="h-[700px]">
                 <iframe id="bible-iframe" src="https://www.stepbible.org/?q=version=ESV|reference=John.1" class="w-full h-full border-none"></iframe>
             </div>
         </section>
     </div>
 
     <div class="lg:col-span-4 space-y-6">
-        <section class="glass-panel p-6">
+        <section class="sidebar-item glass-panel p-6 bg-prayer border border-white">
             <h2 class="text-lg font-bold text-stone-800 mb-4">Confidential Prayer</h2>
-            <textarea id="wa-msg" placeholder="Share your request..." class="w-full p-4 rounded-xl bg-white shadow-inner mb-4 h-24 text-sm"></textarea>
+            <textarea id="wa-msg" placeholder="Share your heart..." class="w-full p-4 rounded-xl bg-white/90 shadow-inner mb-4 h-24 text-sm"></textarea>
             <button onclick="sendWhatsApp()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm">Send to WhatsApp</button>
         </section>
 
-        <section class="glass-panel p-6">
+        <section class="sidebar-item glass-panel p-6 bg-reports border border-white">
             <h2 class="text-lg font-bold mb-4">Community Reports</h2>
             <div id="community-gate" class="text-center py-4">
-                <input type="text" id="member-name" placeholder="Your Name" class="w-full p-3 rounded-xl border mb-3 text-sm">
+                <input type="text" id="member-name" placeholder="Name" class="w-full p-3 rounded-xl border mb-3 text-sm bg-white/90">
                 <button onclick="unlockCommunity()" class="w-full bg-stone-800 text-white py-3 rounded-xl text-xs font-bold">Access Board</button>
             </div>
             <div id="community-main" class="hidden">
-                <div id="testimony-list" class="h-48 overflow-y-auto mb-4 pr-2 space-y-3"></div>
-                <textarea id="t-input" placeholder="Share a testimony..." class="w-full p-3 text-sm border rounded-xl h-20 mb-2"></textarea>
+                <div id="testimony-list" class="h-40 overflow-y-auto mb-4 pr-2 space-y-3"></div>
+                <textarea id="t-input" placeholder="Share a testimony..." class="w-full p-3 text-sm border rounded-xl h-20 mb-2 bg-white/90"></textarea>
                 <button onclick="submitTestimony()" class="w-full bg-teal-700 text-white py-2 rounded-xl text-xs font-bold">Submit for Review</button>
             </div>
         </section>
 
-        <section class="glass-panel p-6 bg-stone-900 text-white">
+        <section class="sidebar-item glass-panel p-6 text-center">
+            <h2 class="text-xs uppercase tracking-widest mb-4 font-bold text-stone-500">Breath of Life Timer</h2>
+            <div class="flex justify-center mb-2"><div class="breath-circle"></div></div>
+            <p class="text-[10px] italic text-stone-400">Inhale His peace... Exhale your worries.</p>
+        </section>
+
+        <section class="sidebar-item glass-panel p-6 bg-hall text-white border border-stone-700">
             <h2 class="text-lg font-bold mb-4">Fellowship Hall</h2>
             <button onclick="initJitsi()" class="w-full py-3 bg-teal-500 text-white rounded-xl font-bold text-sm">Enter Video Meeting</button>
             <div id="jitsi-area"></div>
@@ -144,31 +132,40 @@
             <p class="mt-4" onclick="promptAdmin()">© 2026 Jesus Friendship Fellowship. All rights reserved.</p>
         </div>
         <div class="flex flex-wrap gap-8 font-semibold">
-            <button onclick="showDoc('Terms', 'Community Standard: All members agree to communicate with respect and love.')">Terms</button>
-            <button onclick="showDoc('Privacy', 'Your prayer requests via WhatsApp are private and confidential.')">Privacy</button>
-            <button onclick="showDoc('Moderation', 'All board posts are reviewed for edification.')">Moderation</button>
+            <button onclick="showDoc('Terms of Fellowship', '1. Respect: Members of Jesus Friendship Fellowship agree to interact with the fruits of the Spirit—love, joy, peace, and patience.\n\n2. Edification: This platform is designed for spiritual growth; secular advertisements or divisive political debates are not permitted.\n\n3. Accountability: Administrators reserve the right to moderate content to protect the sanctuary.')">Terms</button>
+            
+            <button onclick="showDoc('Privacy & Security', '1. Confidentiality: Your prayer requests sent to WhatsApp are never logged or stored on our public web servers.\n\n2. Data Usage: We use only functional session cookies to remember your display handle during your visit.\n\n3. Media: We do not record video meetings in the Fellowship Hall without prior community consent.')">Privacy</button>
+            
+            <button onclick="showDoc('Moderation Policy', 'To maintain a safe environment, Jesus Friendship Fellowship employs a pre-approval moderation system. Reports and Testimonies are reviewed by our team for alignment with fellowship guidelines before becoming visible to other members. This ensures that our community space remains a place of light and encouragement.')">Moderation</button>
         </div>
     </div>
 </footer>
 
-<div id="ai-bubble">
-    <button onclick="aiSpeak()" class="ai-pulse w-16 h-16 bg-teal-700 rounded-full shadow-2xl flex items-center justify-center border-4 border-white transition hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-    </button>
+<div id="doc-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-black/50 backdrop-blur-sm">
+    <div class="glass-panel max-w-lg w-full p-8 shadow-2xl relative">
+        <button onclick="closeDoc()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-900 text-xl">✕</button>
+        <h2 id="doc-title" class="text-xl font-bold mb-4 text-teal-800"></h2>
+        <div id="doc-body" class="text-sm text-stone-600 leading-relaxed whitespace-pre-wrap"></div>
+    </div>
 </div>
 
 <script>
-    // 1. Voice AI Logic
-    function aiSpeak() {
+    let voiceInitialized = false;
+
+    function initVoice() {
+        if (voiceInitialized) return;
         const msg = new SpeechSynthesisUtterance();
-        msg.text = "Hello! Welcome to the Jesus Friendship Fellowship. I am here to help you navigate our fellowship sanctuary. You can start by reading the daily friendship reflection or join our live fellowship hall.";
-        msg.rate = 0.9;
+        msg.text = "Welcome to the Jesus Friendship Fellowship sanctuary. We are glad you are here to seek a closer friendship with Jesus. Feel free to explore the daily reflection or join our prayer wall.";
+        msg.rate = 0.85;
         window.speechSynthesis.speak(msg);
+        voiceInitialized = true;
     }
 
-    // 2. Daily Reflection Logic
+    function toggleStudyMode() {
+        document.body.classList.toggle('study-focus');
+    }
+
+    // Daily Reflection Logic
     const reflections = [
         {v: "Proverbs 18:24", ref: "Prov.18.24", t: "Friendship with Jesus is an anchor. He sticks closer than any earthly brother."},
         {v: "John 15:15", ref: "John.15.15", t: "Jesus calls you 'Friend'. This invitation changes how we approach His presence."},
@@ -181,12 +178,10 @@
 
     function exploreScripture() {
         document.getElementById('bible-iframe').src = `https://www.stepbible.org/?q=version=ESV|reference=${current.ref}`;
-        document.getElementById('bible-iframe').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 3. WhatsApp & Community
     function sendWhatsApp() {
-        const msg = encodeURIComponent("Prayer Request: " + document.getElementById('wa-msg').value);
+        const msg = encodeURIComponent("JFF Prayer Request: " + document.getElementById('wa-msg').value);
         window.open(`https://wa.me/2349031167282?text=${msg}`, '_blank');
     }
 
@@ -198,13 +193,13 @@
     }
 
     function submitTestimony() {
-        alert("Your report has been sent to the Jesus Friendship Fellowship moderation queue.");
+        alert("Report sent to the Jesus Friendship Fellowship moderation queue.");
         document.getElementById('t-input').value = "";
     }
 
     function initJitsi() {
         new JitsiMeetExternalAPI("meet.jit.si", {
-            roomName: "Jesus_Friendship_Fellowship_Hall",
+            roomName: "Jesus_Friendship_Fellowship_2026",
             width: '100%', height: 500,
             parentNode: document.querySelector('#jitsi-area'),
             configOverwrite: { prejoinPageEnabled: true }
@@ -212,8 +207,12 @@
         event.target.style.display = 'none';
     }
 
-    // Modal
-    function showDoc(title, text) { alert(title + ": " + text); }
+    function showDoc(title, text) {
+        document.getElementById('doc-title').innerText = title;
+        document.getElementById('doc-body').innerText = text;
+        document.getElementById('doc-modal').classList.remove('hidden');
+    }
+    function closeDoc() { document.getElementById('doc-modal').classList.add('hidden'); }
 </script>
 
 </body>
