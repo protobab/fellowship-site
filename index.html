@@ -3,240 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jesus Friendship Fellowship | Bible Study Portal</title>
+    <title>Jesus Friendship Fellowship - Digital Fellowship Sanctuary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src='https://meet.jit.si/external_api.js'></script>
     <style>
         :root {
-            --spirit-blue: #004a99;
-            --flame-gold: #ffcc00;
-            --dove-white: #ffffff;
-            --text-main: #2c3e50;
-            --bg-soft: #f4f7f9;
+            --primary-spiritual: #1e646e; /* peaceful teal/bronze */
+            --accent-holy-spirit: #f1b74a; /* warm bronze/gold */
+            --light-bg: #fffdf9; /* creamy white */
         }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            background-color: var(--bg-soft);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        body { background-color: var(--light-bg); color: #333; font-family: 'Inter', system-ui, sans-serif; }
+        .tab-btn.active { border-color: var(--primary-spiritual); color: var(--primary-spiritual); font-weight: 600; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Floating AI Bubble */
+        #ai-toggle-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background-color: var(--primary-spiritual); color: white;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1001;
+            transition: all 0.3s ease;
         }
-
-        /* --- REDESIGNED LOGO & HEADER --- */
-        header {
-            background: var(--spirit-blue);
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            color: white;
+        #ai-toggle-btn:hover { transform: scale(1.1); background-color: #1a5661; }
+        #ai-chat-window {
+            position: fixed; bottom: 90px; right: 20px;
+            width: 320px; height: 450px; background: white;
+            border-radius: 16px; box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+            display: none; flex-direction: column; overflow: hidden;
+            border: 1px solid #eee; z-index: 1000;
         }
-
-        .logo-box {
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        /* --- DASHBOARD LAYOUT --- */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            flex: 1;
-        }
-
-        @media (max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-            margin-bottom: 1.5rem;
-        }
-
-        h2 {
-            border-left: 4px solid var(--flame-gold);
-            padding-left: 15px;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-            color: var(--spirit-blue);
-        }
-
-        /* --- DISTRACTION-FREE BIBLE TOOL --- */
-        .bible-container {
-            position: relative;
-            height: 600px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #ddd;
-        }
-
-        .bible-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* --- STUDY AID TOOLS --- */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .tool-btn {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            padding: 15px 10px;
-            border-radius: 10px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .tool-btn:hover {
-            background: var(--spirit-blue);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .tool-btn i {
-            display: block;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        /* --- CHATBOT & INTERACTIVE --- */
-        .prayer-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-family: inherit;
-        }
-
-        .submit-btn {
-            background: var(--flame-gold);
-            color: #443300;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        footer {
-            background: #fff;
-            padding: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #777;
-            border-top: 1px solid #eee;
-        }
+        .ai-header { background: var(--primary-spiritual); color: white; padding: 15px; font-weight: bold; }
+        .ai-body { flex: 1; padding: 15px; font-size: 0.9rem; overflow-y: auto; background: #f9fafb; color: #555; }
+        .ai-input-area { padding: 10px; border-top: 1px solid #eee; display: flex; gap: 5px; }
+        #ai-input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; }
+        #ai-input:focus { outline: none; border-color: var(--primary-spiritual); }
     </style>
 </head>
-<body>
+<body class="p-0 m-0">
 
-<header>
-    <div class="logo-box">
-        <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-            <path d="M40 85 C40 85 80 80 110 85 L110 35 C80 30 40 35 40 35 Z" fill="#fff"/>
-            <path d="M180 85 C180 85 140 80 110 85 L110 35 C140 30 180 35 180 35 Z" fill="#fff"/>
-            <path d="M110 85 V35" stroke="#004a99" stroke-width="2"/>
-            
-            <path d="M110 55 C110 25 135 10 110 5 C85 10 110 25 110 55" fill="#ffcc00"/>
-            <path d="M95 30 Q110 15 125 30" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            
-            <text x="200" y="55" font-family="Georgia, serif" font-weight="bold" font-size="32" fill="white">JESUS FRIENDSHIP</text>
-            <text x="200" y="85" font-family="Verdana" font-size="18" fill="#ffcc00" letter-spacing="6">FELLOWSHIP</text>
-        </svg>
+<header class="bg-white p-8 text-center shadow-md">
+    <div class="max-w-4xl mx-auto flex items-center justify-center gap-6 flex-wrap">
+        <div class="w-24 h-24 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path d="M10 85 C10 85 45 80 65 85 L65 35 C45 30 10 35 10 35 Z" fill="#fffdf9"/>
+                <path d="M120 85 C120 85 85 80 65 85 L65 35 C85 30 120 35 120 35 Z" fill="#fffdf9"/>
+                <path d="M65 85 V35" stroke="#1e646e" stroke-width="2"/>
+                
+                <path d="M65 15 V90 M40 35 H90" stroke="#5d3a2e" stroke-width="7" stroke-linecap="round"/>
+                
+                <path d="M45 75 C45 70, 48 65, 52 65 C55 65, 58 70, 58 75 L45 75 Z" fill="#5d3a2e"/>
+                <path d="M85 75 C85 70, 82 65, 78 65 C75 65, 72 70, 72 75 L85 75 Z" fill="#5d3a2e"/>
+                
+                <path d="M65 60 C65 35 85 20 65 15 Q45 20 65 60" fill="#f1b74a"/>
+                <path d="M55 40 Q65 25 75 40" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                
+                <polygon points="110,40 112,35 117,33 112,31 110,26 108,31 103,33 108,35" fill="#fca311"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="text-4xl font-extralight tracking-tight text-stone-800">Jesus Friendship Fellowship</h1>
+            <p class="text-xl font-light text-stone-500 mt-1 italic">Rooted in Scripture, United in Spirit</p>
+        </div>
     </div>
 </header>
 
-<div class="container">
+<main class="max-w-7xl mx-auto px-4 py-8 md:py-16 space-y-20">
     
-    <section>
-        <div class="card">
-            <h2>📖 Focused Scripture Study</h2>
-            <div class="bible-container">
-                <iframe src="https://www.bible.com/bible/111/JHN.1.NIV"></iframe>
-            </div>
-            <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">
-                Note: Use the menu inside the Bible tool to switch versions (KJV, ESV, etc.) or search for chapters.
-            </p>
+    <section class="card bg-white p-6 rounded-3xl shadow-lg border border-stone-100 max-w-lg mx-auto text-center">
+        <h2 class="text-2xl font-light mb-4">Hope Radio Live</h2>
+        <audio controls class="w-full">
+            <source src="https://azuracast-nuremberg.myautodj.com/hls/station_8321_1775290855/live.m3u8" type="application/x-mpegURL">
+            Your browser does not support the audio element.
+        </audio>
+    </section>
+
+    <section id="bible-study" class="bg-white p-10 rounded-3xl shadow-xl shadow-stone-200/40 border border-stone-100">
+        <h2 class="text-3xl font-light mb-8 text-stone-800">Bible Study Hub</h2>
+        <div class="border-b border-stone-200 flex mb-8 gap-1">
+            <button onclick="openTab('clean-bible')" class="tab-btn active px-6 py-3 border-b-4 border-transparent text-lg">Focused Bible Reader</button>
+            <button onclick="openTab('youversion')" class="tab-btn px-6 py-3 border-b-4 border-transparent text-lg text-stone-500 hover:text-stone-700">Explore Versions (YouVersion)</button>
+        </div>
+        
+        <div id="clean-bible" class="tab-content active bible-container h-[700px] border border-stone-200 rounded-xl overflow-hidden">
+            <iframe src="https://netbible.org/bible/John+1" class="w-full h-full border-none"></iframe>
+            <div class="p-3 text-sm text-stone-500 bg-stone-50 border-t">Powered by NET Bible (Ad-free, download-free, no sign-up).</div>
+        </div>
+        
+        <div id="youversion" class="tab-content bible-container h-[700px] border border-stone-200 rounded-xl overflow-hidden">
+            <iframe src="https://www.bible.com/bible/111/JHN.1.NIV" class="w-full h-full border-none"></iframe>
         </div>
     </section>
 
-    <aside>
-        <div class="card">
-            <h2>🛠️ Study Aid Suite</h2>
-            <div class="tools-grid">
-                <a href="https://www.blueletterbible.org/study/lexicon/lexicon.cfm" target="_blank" class="tool-btn">
-                    Word Study<br>(Strong's)
-                </a>
-                <a href="https://www.openbible.info/geo/" target="_blank" class="tool-btn">
-                    Bible Maps<br>(Visual)
-                </a>
-                <a href="https://www.biblegateway.com/devotionals/morning-and-evening/today" target="_blank" class="tool-btn">
-                    Daily<br>Devotion
-                </a>
-                <a href="https://www.biblestudytools.com/commentaries/" target="_blank" class="tool-btn">
-                    Expert<br>Commentary
-                </a>
-            </div>
+    <section id="fellowship" class="space-y-4">
+        <h2 class="text-center text-3xl font-light text-stone-800">Fellowship Meeting Room</h2>
+        <p class="text-center text-stone-500 font-sans pb-4">No application to download, no sign-up. Join our next live gathering instantly in your browser.</p>
+        <div class="bg-stone-900 p-1 rounded-3xl shadow-xl overflow-hidden">
+            <div id="jitsi-container" class="w-full h-[650px] rounded-2xl"></div>
         </div>
+    </section>
 
-        <div class="card">
-            <h2>🎥 Fellowship Room</h2>
-            <p style="font-size: 0.9rem;">Join the "Jitsi Meet" live study session now.</p>
-            <a href="https://meet.jit.si/JesusFriendshipFellowship" target="_blank" class="submit-btn" style="display:block; text-align:center; text-decoration:none;">Enter Jitsi Meeting</a>
+    <section id="community-forum" class="bg-white p-10 rounded-3xl shadow-xl shadow-stone-200/40 border border-stone-100">
+        <h2 class="text-3xl font-light mb-8 text-stone-800">Fellowship Community Board</h2>
+        <p class="text-stone-600 mb-10 leading-relaxed font-sans max-w-3xl">This is our open-source community forum for focused Bible study discussions. To maintain a private, membership-based environment, you need a free GitHub account to post and discuss. Discuss scriptures, study notes, and share life with others.</p>
+        
+        <div class="giscus w-full">
+            <script src="https://giscus.app/client.js"
+                data-repo="livesinmotion26/JFF-Platform" data-repo-id="R_kgDOLmB2gA"             data-category="Announcements"          data-category-id="DIC_kwDOLmB2gM4CeZ_8"  data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light_high_contrast"
+                data-lang="en"
+                crossorigin="anonymous"
+                async>
+            </script>
+            <div id="giscus-loading" class="text-center p-10 text-stone-500">Connecting to community board... (Make sure GitHub Discussions are enabled on your repo and Giscus configured)</div>
         </div>
+    </section>
 
-        <div class="card">
-            <h2>🙏 Prayer Support</h2>
-            <form id="prayerWall">
-                <input type="text" class="prayer-input" placeholder="Name (or Anonymous)">
-                <textarea class="prayer-input" rows="3" placeholder="How can we pray for you today?"></textarea>
-                <button type="submit" class="submit-btn">Send to Prayer Team</button>
-            </form>
-        </div>
+    <section id="prayer-support" class="bg-white p-10 rounded-3xl shadow-xl border border-stone-100 max-w-2xl mx-auto">
+        <h2 class="text-3xl font-light mb-8 text-stone-800">Confidential Prayer Support</h2>
+        <form id="prayerWall">
+            <input type="text" class="prayer-input" placeholder="Name (or Anonymous)" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
+            <textarea class="prayer-input" rows="4" placeholder="How can our leadership team pray for you today?" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px; font-family:inherit;"></textarea>
+            <button type="submit" class="submit-btn" style="background:#f1b74a; color:#fff; border:none; padding:12px 25px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Send to leadership team</button>
+        </form>
+    </section>
 
-        <div class="card" style="background: var(--spirit-blue); color: white;">
-            <h2 style="color: white; border-color: white;">📻 Radio Stream</h2>
-            <audio controls style="width: 100%;">
-                <source src="https://azuracast-nuremberg.myautodj.com/hls/station_8321_1775290855/live.m3u8">
-            </audio>
-        </div>
-    </aside>
-</div>
+</main>
 
-<footer>
-    <p>&copy; 2026 Jesus Friendship Fellowship | Dedicated to the Word and the Spirit.</p>
-    <div style="margin-top: 10px;">
-        <a href="https://wa.me/2349031167282" style="color: var(--spirit-blue); margin: 0 10px; text-decoration: none;">WhatsApp</a>
-        <a href="https://instagram.com/livesinmotion26" style="color: var(--spirit-blue); margin: 0 10px; text-decoration: none;">Instagram</a>
+<footer class="bg-stone-100 p-10 text-center border-t mt-20">
+    <p class="text-stone-600">&copy; 2026 Jesus Friendship Fellowship | Dedicated to the Word and the Spirit.</p>
+    <div class="mt-4 text-stone-500 text-sm">
+        Link: <a href="https://wa.me/2349031167282" style="color:#1e646e;">WhatsApp</a> / <a href="https://instagram.com/livesinmotion26" style="color:#1e646e;">Instagram</a>
     </div>
 </footer>
 
+<div id="ai-toggle-btn" onclick="toggleAI()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14h-2v-2h2zm0-4h-2V7h2z"></path></svg>
+</div>
+
+<div id="ai-chat-window">
+    <div class="ai-header flex items-center justify-between">
+        <span>JFF Guide (Beta)</span>
+        <button onclick="toggleAI()" class="text-white text-xl">×</button>
+    </div>
+    <div class="ai-body" id="aiMessages">
+        <p><strong>Guide:</strong> Welcome to JFF. How can I assist you today? You can ask about service times, study tips, or search for a verse.</p>
+    </div>
+    <div class="ai-input-area">
+        <input type="text" id="ai-input" placeholder="Type a message or verse..." onkeypress="handleAIKeypress(event)">
+        <button onclick="handleAISend()" style="background:var(--accent-holy-spirit); color:white; border:none; padding: 6px 12px; border-radius: 8px;">Send</button>
+    </div>
+</div>
+
 <script>
+    // Tabbed Bible Study logic
+    function openTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.includes(tabName === 'clean-bible' ? 'Focused' : 'YouVersion'));
+        if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // Giscus loading handler (Hides placeholder if giscus script fails/is not configured)
+    window.addEventListener('load', function() {
+        const loadingIndicator = document.getElementById('giscus-loading');
+        if (!loadingIndicator) return; // Case where it's already removed
+        setTimeout(() => {
+            if (document.querySelector('.giscus-frame')) {
+                loadingIndicator.style.display = 'none';
+            } else {
+                loadingIndicator.textContent = "Community Board failed to load. Please configure Giscus settings in the script.";
+            }
+        }, 5000); // Wait 5 seconds to check if Giscus successfully loaded
+    });
+
+    // Jitsi Meet Init
+    const jitsiApi = new JitsiMeetExternalAPI("meet.jit.si", {
+        roomName: "JFF_Global_Fellowship_Hall",
+        parentNode: document.querySelector('#jitsi-container'),
+        configOverwrite: { startWithAudioMuted: true, defaultLocalDisplayName: 'Visitor' },
+        interfaceConfigOverwrite: { TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat', 'raisehand', 'tileview', 'fullscreen'] }
+    });
+
+    // Prayer form logic (Retained placeholder alert)
     document.getElementById('prayerWall').onsubmit = function(e) {
         e.preventDefault();
-        alert("Thank you. Your request has been sent to the fellowship intercessors.");
+        alert("Your request has been sent to the fellowship intercessors.");
         this.reset();
     };
+
+    // Unobtrusive AI Assistant (Client-side logic)
+    function toggleAI() {
+        const chat = document.getElementById('ai-chat-window');
+        chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function addMessage(sender, message) {
+        const msg = document.createElement('p');
+        msg.innerHTML = `<strong>${sender}:</strong> ${message}`;
+        const chatBody = document.getElementById('aiMessages');
+        chatBody.appendChild(msg);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function handleAISend() {
+        const input = document.getElementById('ai-input');
+        const userMsg = input.value.trim();
+        if (!userMsg) return;
+        addMessage('You', userMsg);
+        input.value = '';
+
+        // Simple client-side signposting guide logic
+        setTimeout(() => {
+            const query = userMsg.toLowerCase();
+            let response = "I am a simple JFF guide. I cannot answer complex questions or chat deeply, but I can guide you. Try asking about service times, study tips, or search for a verse.";
+
+            // 1. Scripture search redirect (matching common verse formats)
+            const verseMatch = userMsg.match(/([a-zA-Z\s]+)\s*(\d+):(\d+)/i);
+            if (verseMatch) {
+                const book = verseMatch[1].trim().replace(/\s+/g, '+');
+                const chapter = verseMatch[2];
+                const verse = verseMatch[3];
+                response = `You are looking for <a href="https://netbible.org/bible/${book}+${chapter}:${verse}" target="_blank" style="color:var(--primary-spiritual);"><b>${verseMatch[1]} ${chapter}:${verse}</b></a>. I will open it for you in a new tab. For continuous reading, use the Focused Bible Study tab.`;
+                window.open(`https://netbible.org/bible/${book}+${chapter}:${verse}`, '_blank');
+            } else if (userMsg.toLowerCase().includes("bible")) {
+                 response = "For continuous, ad-free study, use our **Focused Bible Reader** section. You can also switch to **Explore Versions** to see other translations.";
+            } else if (userMsg.toLowerCase().includes("jitsi") || query.includes("meeting") || query.includes("gathering")) {
+                 response = "To join our next live gathering instantly, scroll to the **Fellowship Hall (Jitsi Meet)** section.";
+            } else if (query.includes("forum") || query.includes("discuss") || query.includes("community")) {
+                 response = "To discuss scriptures and life with others, use our **Fellowship Community Board** section at the bottom. Note: It requires a free GitHub account to post.";
+            } else if (query.includes("prayer") || query.includes("support")) {
+                 response = "For private prayer support from our leadership team, use the **Confidential Prayer Support** form above.";
+            } else if (query.includes("service times") || query.includes("schedule")) {
+                response = "We hold our fellowship study meetings on Jitsi Meet every **[Define your regular slot here, e.g., Sunday at 10 AM UTC]**. This page always links to the latest meeting room.";
+            } else if (query.includes("who are you") || query.includes("what is jff")) {
+                response = "Jesus Friendship Fellowship is a digital sanctuary focused on reflective study, community prayer, and uniting in spirit without physical or institutional walls.";
+            } else if (query.includes("privacy") || query.includes("membership")) {
+                response = "Our Bible reader and Jitsi meetings are ad-free, download-free, and require no signup. Only the Community Forum requires a free GitHub account to foster accountability.";
+            }
+
+            addMessage('Guide', response);
+        }, 1000);
+    }
+
+    function handleAIKeypress(e) { if (e.key === 'Enter') handleAISend(); }
 </script>
 
 </body>
