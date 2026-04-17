@@ -14,7 +14,7 @@
         body {
             background: radial-gradient(circle at center, #f8fafc 0%, #cbd5e0 100%);
             font-family: 'Inter', system-ui, sans-serif;
-            padding-top: 100px;
+            padding-top: 90px;
         }
 
         header {
@@ -27,7 +27,6 @@
             border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 20px;
         }
 
-        /* SMALL DISCREET HUMAN AVATAR */
         #guide-companion {
             position: fixed; bottom: 20px; left: 20px; z-index: 1000;
             display: flex; flex-direction: column; align-items: center;
@@ -40,7 +39,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             overflow: hidden; cursor: pointer;
         }
-
         .avatar-body img { width: 100%; height: 100%; object-fit: cover; }
 
         .speech-bubble {
@@ -48,13 +46,16 @@
             margin-bottom: 5px; max-width: 150px; font-size: 0.7rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             opacity: 0; transform: translateY(5px);
-            transition: all 0.3s ease; pointer-events: none;
+            transition: all 0.3s ease;
         }
         .guide-active .speech-bubble { opacity: 1; transform: translateY(0); }
 
         .tab-active { border-bottom: 2px solid var(--jff-teal); color: var(--jff-teal); font-weight: bold; }
         
-        .study-card:hover { background: #f0fdfa; transform: translateY(-2px); transition: all 0.2s; }
+        .study-card { transition: all 0.2s; border: 1px solid #e2e8f0; }
+        .study-card:hover { border-color: var(--jff-teal); background: #f0fdfa; transform: translateY(-2px); }
+        
+        .nav-btn { font-size: 9px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col" onload="initializeFellowship()">
@@ -64,20 +65,23 @@
         <div class="flex items-center gap-3">
             <img src="image_1.png" alt="JFF Logo" class="w-10 h-10 rounded-full border border-teal-600">
             <div>
-                <h1 class="text-md font-bold text-stone-800 tracking-tight">Jesus Friendship Fellowship</h1>
-                <p class="text-[8px] italic text-teal-700 font-bold uppercase tracking-wider">A Closer Friendship</p>
+                <h1 class="text-md font-bold text-stone-800 tracking-tight leading-none">Jesus Friendship Fellowship</h1>
+                <p class="text-[8px] italic text-teal-700 font-bold uppercase tracking-wider mt-1">A Closer Friendship</p>
             </div>
         </div>
         <div class="hidden md:block">
             <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic" width="180" height="25" frameborder="0"></iframe>
         </div>
-        <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded-full text-[10px] font-bold">PRAYER</a>
+        <div class="flex items-center gap-3">
+            <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded-full nav-btn shadow-sm">Prayer</a>
+            <a href="https://donate.stripe.com/9B64gB2SR5vn3Fk1z3ebu00" target="_blank" class="bg-white border border-teal-200 text-teal-800 px-4 py-2 rounded-full nav-btn hover:bg-teal-50">Give a Gift</a>
+        </div>
     </div>
 </header>
 
 <div id="guide-companion">
-    <div id="guide-bubble" class="speech-bubble">KJV loaded for your study.</div>
-    <div class="avatar-body" onclick="triggerGuideSpeech('welcome')">
+    <div id="guide-bubble" class="speech-bubble">Which path shall we walk today?</div>
+    <div class="avatar-body" onclick="triggerGuideSpeech('default')">
         <img src="https://ui-avatars.com/api/?name=JFF+Guide&background=1e646e&color=fff" alt="Guide">
     </div>
 </div>
@@ -86,10 +90,11 @@
     
     <div class="lg:col-span-8 space-y-4">
         <div class="flex items-center justify-between bg-white/50 p-2 rounded-t-xl border-b">
-            <h2 class="text-xs font-bold text-teal-800 px-4 uppercase tracking-widest">Study and Know Your God</h2>
-            <div class="flex gap-4 text-[10px] uppercase font-bold">
-                <button id="tab-kjv" onclick="switchTool('kjv')" class="pb-1 tab-active">KJV (Default)</button>
-                <button id="tab-parallel" onclick="switchTool('parallel')" class="pb-1 text-stone-400">KJV | ESV Strong's</button>
+            <h2 class="text-xs font-bold text-teal-800 px-4 uppercase tracking-widest">Study Hub</h2>
+            <div class="flex gap-4 text-[9px] uppercase font-bold">
+                <button id="tab-kjv" onclick="switchTool('kjv')" class="pb-1 tab-active">KJV</button>
+                <button id="tab-parallel" onclick="switchTool('parallel')" class="pb-1 text-stone-400">KJV | ESV Parallel</button>
+                <button id="tab-chrono" onclick="switchTool('chrono')" class="pb-1 text-stone-400 text-amber-600">Reading Aids</button>
             </div>
         </div>
         
@@ -100,19 +105,39 @@
         </section>
 
         <section class="glass-panel p-6 mt-8">
-            <h3 class="text-xs font-bold text-teal-800 uppercase tracking-widest mb-4">Topical Study Guides</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="study-card p-4 border rounded-xl cursor-pointer" onclick="linkFocus('John.15.1-17')">
-                    <h4 class="text-sm font-bold text-stone-800 mb-1">Divine Friendship</h4>
-                    <p class="text-[10px] text-stone-500">Exploring what it means to be called a friend of God.</p>
+            <h3 class="text-xs font-bold text-teal-800 uppercase tracking-widest mb-6 flex items-center gap-2">
+                <span class="w-8 h-[1px] bg-teal-200"></span> Topical Friendship Guides
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('John.15.1-17', 'Divine Friendship', 'Discovering Jesus as our closest companion and the True Vine.')">
+                    <div class="text-[10px] font-bold text-teal-600 mb-1">FOUNDATIONS</div>
+                    <h4 class="text-sm font-bold text-stone-800 mb-2">The Call to Friendship</h4>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">Understand the transition from 'servant' to 'friend' through the eyes of John 15.</p>
                 </div>
-                <div class="study-card p-4 border rounded-xl cursor-pointer" onclick="linkFocus('Psalm.23')">
-                    <h4 class="text-sm font-bold text-stone-800 mb-1">Peace in the Storm</h4>
-                    <p class="text-[10px] text-stone-500">Finding rest in the Good Shepherd during trials.</p>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Philippians.4.4-13', 'Peace & Rest', 'Learning to cast all cares upon Him because He cares for you.')">
+                    <div class="text-[10px] font-bold text-emerald-600 mb-1">INNER PEACE</div>
+                    <h4 class="text-sm font-bold text-stone-800 mb-2">Rest for the Anxious</h4>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">A guide to finding the peace that passes all understanding in stressful times.</p>
                 </div>
-                <div class="study-card p-4 border rounded-xl cursor-pointer" onclick="linkFocus('Ephesians.6.10-20')">
-                    <h4 class="text-sm font-bold text-stone-800 mb-1">The Whole Armour</h4>
-                    <p class="text-[10px] text-stone-500">Topical guide on spiritual readiness and prayer.</p>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Matthew.18.21-35', 'Forgiveness', 'Walking in the freedom of Christ by extending the grace He gave us.')">
+                    <div class="text-[10px] font-bold text-amber-600 mb-1">RELATIONSHIPS</div>
+                    <h4 class="text-sm font-bold text-stone-800 mb-2">The Path of Forgiveness</h4>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">Practical study on the seventy-times-seven nature of biblical forgiveness.</p>
+                </div>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Matthew.3.13-17|2Corinthians.13.14', 'The Trinity', 'Understanding the mystery of the Father, Son, and Holy Spirit.')">
+                    <div class="text-[10px] font-bold text-blue-600 mb-1">DOCTRINE</div>
+                    <h4 class="text-sm font-bold text-stone-800 mb-2">Understanding the Trinity</h4>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">A scripture-based look at the distinct persons and unified nature of God.</p>
+                </div>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Ephesians.6.10-20', 'Spiritual Armor', 'Standing firm in the power of His might with the full armor of God.')">
+                    <div class="text-[10px] font-bold text-red-600 mb-1">VICTORY</div>
+                    <h4 class="text-sm font-bold text-stone-800 mb-2">The Whole Armour</h4>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">Identifying and utilizing the belt of truth, the shield of faith, and the sword of the spirit.</p>
+                </div>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Hebrews.11|Mark.9.14-29', 'Faith', 'Strengthening your walk when the road ahead seems uncertain.')">
+                    <div class="text-[10px] font-bold text-purple-600 mb-1">FAITHFULNESS</div>
+                    <h4 class="text-sm font-bold text-stone-800 mb-2">Faith Over Sight</h4>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">Reflecting on the 'Hall of Faith' and how to cry out, \"Help my unbelief!\"</p>
                 </div>
             </div>
         </section>
@@ -121,18 +146,27 @@
     <div class="lg:col-span-4 space-y-6">
         
         <section class="glass-panel p-6 bg-blue-50 border-t-4 border-blue-500">
-            <h3 class="text-[10px] font-bold text-blue-800 uppercase mb-2">Fellowship Meeting</h3>
+            <h3 class="text-[10px] font-bold text-blue-800 uppercase mb-2">Zoom Fellowship</h3>
             <p class="text-xs text-stone-800 mb-3">Apr 17 @ 06:00 PM London</p>
-            <a href="https://us06web.zoom.us/meeting/register/WP5ilOUZTXOy1dBly1lZOg" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px]">REGISTER FOR ZOOM</a>
+            <a href="https://us06web.zoom.us/meeting/register/WP5ilOUZTXOy1dBly1lZOg" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] tracking-widest">REGISTER NOW</a>
         </section>
 
         <section class="glass-panel p-6 border-t-4 border-amber-400 bg-amber-50/10">
-            <h3 class="text-[10px] font-bold uppercase text-amber-800 mb-4">Reflection Journal</h3>
-            <button id="voice-btn" onclick="toggleVoiceJournal()" class="w-full py-3 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-900 shadow-sm transition mb-3">
-                🎙 BEGIN DICTATING NOTES
+            <h3 class="text-[10px] font-bold uppercase text-amber-800 mb-4">Study Reflection Journal</h3>
+            <button id="voice-btn" onclick="toggleVoiceJournal()" class="w-full py-3 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-900 mb-3">
+                🎙 BEGIN DICTATING
             </button>
-            <textarea id="journal-out" placeholder="Notes will persist through pauses..." class="w-full h-64 p-4 rounded-xl border-none text-sm bg-white shadow-inner focus:ring-1 ring-amber-300"></textarea>
+            <textarea id="journal-out" placeholder="Reflections stay here..." class="w-full h-48 p-4 rounded-xl border-none text-sm bg-white shadow-inner"></textarea>
             <button onclick="downloadNote()" class="w-full mt-3 bg-stone-800 text-white py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest">Download Reflection</button>
+        </section>
+
+        <section class="glass-panel p-6 border-t-4 border-stone-800 bg-stone-50">
+            <h3 class="text-[10px] font-bold text-stone-600 uppercase mb-4">Chronological Aids</h3>
+            <div class="space-y-3">
+                <button onclick="loadTopic('Genesis.1|Job.1', 'Chrono Order', 'Genesis and Job are widely considered the oldest texts.')" class="w-full text-left p-3 bg-white border rounded-lg text-[10px] font-bold hover:border-teal-400">1. The Beginning (Gen & Job)</button>
+                <button onclick="loadTopic('Exodus.1|Leviticus.1', 'Chrono Order', 'The Law and the Wilderness.')" class="w-full text-left p-3 bg-white border rounded-lg text-[10px] font-bold hover:border-teal-400">2. The Exodus & Law</button>
+                <button onclick="loadTopic('1Samuel.1|Psalm.1', 'Chrono Order', 'The Rise of the Kingdom.')" class="w-full text-left p-3 bg-white border rounded-lg text-[10px] font-bold hover:border-teal-400">3. The United Kingdom</button>
+            </div>
         </section>
     </div>
 </main>
@@ -142,77 +176,82 @@
         const iframe = document.getElementById('study-iframe');
         const t1 = document.getElementById('tab-kjv');
         const t2 = document.getElementById('tab-parallel');
+        const t3 = document.getElementById('tab-chrono');
+        
+        [t1,t2,t3].forEach(t => { t.classList.remove('tab-active'); t.classList.add('text-stone-400'); });
+
         if(tool === 'kjv') {
             iframe.src = "https://www.stepbible.org/?q=version=KJV|reference=John.1";
-            t1.classList.add('tab-active'); t2.classList.remove('tab-active');
-        } else {
+            t1.classList.add('tab-active');
+        } else if (tool === 'parallel') {
             iframe.src = "https://www.stepbible.org/?q=version=KJV&version=ESV|reference=John.1";
-            t2.classList.add('tab-active'); t1.classList.remove('tab-active');
+            t2.classList.add('tab-active');
+        } else {
+            // Loading the STEP Bible's Reading Plan helper specifically
+            iframe.src = "https://www.stepbible.org/reading_plan.jsp";
+            t3.classList.add('tab-active');
+            t3.classList.remove('text-stone-400');
         }
     }
 
-    function linkFocus(ref) {
-        document.getElementById('study-iframe').src = `https://www.stepbible.org/?q=version=KJV|reference=${ref}`;
-        triggerGuideSpeech('study');
-    }
-
-    function triggerGuideSpeech(textKey) {
+    // TOPIC LOADING FUNCTION
+    function loadTopic(ref, title, guideNote) {
+        const iframe = document.getElementById('study-iframe');
+        iframe.src = `https://www.stepbible.org/?q=version=KJV|reference=${ref}`;
+        
+        // Update Guide
         const bubble = document.getElementById('guide-bubble');
         const container = document.getElementById('guide-companion');
-        bubble.innerText = "Guide updated to your selection.";
+        bubble.innerText = `${title}: ${guideNote}`;
         container.classList.add('guide-active');
-        setTimeout(() => container.classList.remove('guide-active'), 4000);
+        
+        // Voice response
+        const msg = new SpeechSynthesisUtterance(`${title}. ${guideNote}`);
+        msg.rate = 0.95;
+        window.speechSynthesis.speak(msg);
+
+        // Scroll back up to bible
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function triggerGuideSpeech(key) {
+        const container = document.getElementById('guide-companion');
+        container.classList.add('guide-active');
+        setTimeout(() => container.classList.remove('guide-active'), 6000);
     }
 
     function initializeFellowship() { setTimeout(() => triggerGuideSpeech('welcome'), 2000); }
 
-    // --- NON-RESETTING PERSISTENT DICTATION LOGIC ---
+    // --- CONTINUOUS DICTATION LOGIC ---
     let recognition;
     let isRecording = false;
-    let currentSessionTranscript = '';
 
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
-
         recognition.onresult = (event) => {
-            let interim = '';
             for (let i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
-                    // Update the text area with the final result immediately
-                    const textArea = document.getElementById('journal-out');
-                    textArea.value += event.results[i][0].transcript + " ";
+                    document.getElementById('journal-out').value += event.results[i][0].transcript + " ";
                 }
             }
         };
-
-        // This prevents the "Pause Timeout" from resetting the experience
-        recognition.onend = () => {
-            if (isRecording) {
-                recognition.start(); // Auto-restart silently to allow infinite pausing
-            }
-        };
+        recognition.onend = () => { if (isRecording) recognition.start(); };
     }
 
     function toggleVoiceJournal() {
         const btn = document.getElementById('voice-btn');
-        const textArea = document.getElementById('journal-out');
-        
         if (!isRecording) {
-            // Start a fresh line for the new recording session
-            if (textArea.value.trim().length > 0) {
-                textArea.value += "\n--- New Reflection ---\n";
-            }
             recognition.start();
             isRecording = true;
-            btn.innerText = "🛑 PAUSE RECORDING";
-            btn.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
+            btn.innerText = "🛑 PAUSE SESSION";
+            btn.classList.add('bg-red-50', 'text-red-800');
         } else {
             recognition.stop();
             isRecording = false;
             btn.innerText = "🎙 RESUME DICTATING";
-            btn.classList.remove('bg-red-50', 'text-red-800', 'border-red-200');
+            btn.classList.remove('bg-red-50', 'text-red-800');
         }
     }
 
@@ -221,7 +260,7 @@
         const blob = new Blob([text], {type:'text/plain'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "JFF-StudyNotes.txt";
+        a.download = "Friendship-Study-Notes.txt";
         a.click();
     }
 </script>
