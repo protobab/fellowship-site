@@ -56,6 +56,13 @@
         .study-card:hover { border-color: var(--jff-teal); background: #f0fdfa; transform: translateY(-2px); }
         
         .nav-btn { font-size: 9px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+        
+        .chrono-btn { 
+            width: 100%; text-align: left; padding: 10px; background: white; 
+            border: 1px solid #e2e8f0; border-radius: 8px; font-size: 10px; 
+            font-weight: 600; color: #4a5568; transition: all 0.2s;
+        }
+        .chrono-btn:hover { border-color: var(--jff-teal); background: #f0fdfa; color: var(--jff-teal); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col" onload="initializeFellowship()">
@@ -80,7 +87,7 @@
 </header>
 
 <div id="guide-companion">
-    <div id="guide-bubble" class="speech-bubble">Which path shall we walk today?</div>
+    <div id="guide-bubble" class="speech-bubble">The Chronological aids are ready...</div>
     <div class="avatar-body" onclick="triggerGuideSpeech('default')">
         <img src="https://ui-avatars.com/api/?name=JFF+Guide&background=1e646e&color=fff" alt="Guide">
     </div>
@@ -94,7 +101,7 @@
             <div class="flex gap-4 text-[9px] uppercase font-bold">
                 <button id="tab-kjv" onclick="switchTool('kjv')" class="pb-1 tab-active">KJV</button>
                 <button id="tab-parallel" onclick="switchTool('parallel')" class="pb-1 text-stone-400">KJV | ESV Parallel</button>
-                <button id="tab-chrono" onclick="switchTool('chrono')" class="pb-1 text-stone-400 text-amber-600">Reading Aids</button>
+                <button id="tab-chrono" onclick="switchTool('chrono')" class="pb-1 text-stone-400">Bible Reading Plans</button>
             </div>
         </div>
         
@@ -105,39 +112,19 @@
         </section>
 
         <section class="glass-panel p-6 mt-8">
-            <h3 class="text-xs font-bold text-teal-800 uppercase tracking-widest mb-6 flex items-center gap-2">
-                <span class="w-8 h-[1px] bg-teal-200"></span> Topical Friendship Guides
-            </h3>
+            <h3 class="text-xs font-bold text-teal-800 uppercase tracking-widest mb-6">Topical Friendship Guides</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('John.15.1-17', 'Divine Friendship', 'Discovering Jesus as our closest companion and the True Vine.')">
-                    <div class="text-[10px] font-bold text-teal-600 mb-1">FOUNDATIONS</div>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('John.15.1-17', 'Divine Friendship', 'Discovering Jesus as our closest companion.')">
                     <h4 class="text-sm font-bold text-stone-800 mb-2">The Call to Friendship</h4>
-                    <p class="text-[11px] text-stone-500 leading-relaxed">Understand the transition from 'servant' to 'friend' through the eyes of John 15.</p>
+                    <p class="text-[11px] text-stone-500">From servant to friend in John 15.</p>
                 </div>
-                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Philippians.4.4-13', 'Peace & Rest', 'Learning to cast all cares upon Him because He cares for you.')">
-                    <div class="text-[10px] font-bold text-emerald-600 mb-1">INNER PEACE</div>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Philippians.4.4-13', 'Peace & Rest', 'Learning to cast all cares upon Him.')">
                     <h4 class="text-sm font-bold text-stone-800 mb-2">Rest for the Anxious</h4>
-                    <p class="text-[11px] text-stone-500 leading-relaxed">A guide to finding the peace that passes all understanding in stressful times.</p>
+                    <p class="text-[11px] text-stone-500">Finding the peace that passes understanding.</p>
                 </div>
-                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Matthew.18.21-35', 'Forgiveness', 'Walking in the freedom of Christ by extending the grace He gave us.')">
-                    <div class="text-[10px] font-bold text-amber-600 mb-1">RELATIONSHIPS</div>
-                    <h4 class="text-sm font-bold text-stone-800 mb-2">The Path of Forgiveness</h4>
-                    <p class="text-[11px] text-stone-500 leading-relaxed">Practical study on the seventy-times-seven nature of biblical forgiveness.</p>
-                </div>
-                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Matthew.3.13-17|2Corinthians.13.14', 'The Trinity', 'Understanding the mystery of the Father, Son, and Holy Spirit.')">
-                    <div class="text-[10px] font-bold text-blue-600 mb-1">DOCTRINE</div>
-                    <h4 class="text-sm font-bold text-stone-800 mb-2">Understanding the Trinity</h4>
-                    <p class="text-[11px] text-stone-500 leading-relaxed">A scripture-based look at the distinct persons and unified nature of God.</p>
-                </div>
-                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Ephesians.6.10-20', 'Spiritual Armor', 'Standing firm in the power of His might with the full armor of God.')">
-                    <div class="text-[10px] font-bold text-red-600 mb-1">VICTORY</div>
-                    <h4 class="text-sm font-bold text-stone-800 mb-2">The Whole Armour</h4>
-                    <p class="text-[11px] text-stone-500 leading-relaxed">Identifying and utilizing the belt of truth, the shield of faith, and the sword of the spirit.</p>
-                </div>
-                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Hebrews.11|Mark.9.14-29', 'Faith', 'Strengthening your walk when the road ahead seems uncertain.')">
-                    <div class="text-[10px] font-bold text-purple-600 mb-1">FAITHFULNESS</div>
+                <div class="study-card p-4 rounded-xl cursor-pointer" onclick="loadTopic('Hebrews.11', 'Hall of Faith', 'Walking by faith and not by sight.')">
                     <h4 class="text-sm font-bold text-stone-800 mb-2">Faith Over Sight</h4>
-                    <p class="text-[11px] text-stone-500 leading-relaxed">Reflecting on the 'Hall of Faith' and how to cry out, \"Help my unbelief!\"</p>
+                    <p class="text-[11px] text-stone-500">A guide to the Great Hall of Faith.</p>
                 </div>
             </div>
         </section>
@@ -145,10 +132,18 @@
 
     <div class="lg:col-span-4 space-y-6">
         
-        <section class="glass-panel p-6 bg-blue-50 border-t-4 border-blue-500">
-            <h3 class="text-[10px] font-bold text-blue-800 uppercase mb-2">Zoom Fellowship</h3>
-            <p class="text-xs text-stone-800 mb-3">Apr 17 @ 06:00 PM London</p>
-            <a href="https://us06web.zoom.us/meeting/register/WP5ilOUZTXOy1dBly1lZOg" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] tracking-widest">REGISTER NOW</a>
+        <section class="glass-panel p-6 border-t-4 border-stone-800 bg-stone-50">
+            <h3 class="text-[10px] font-bold text-stone-600 uppercase mb-4 tracking-widest">Chronological Study Walk</h3>
+            <div class="space-y-2">
+                <button onclick="loadTopic('Gen.1|Job.1', 'The Beginning', 'The dawn of creation and the patience of Job.')" class="chrono-btn">1. Creation & Ancient Beginnings</button>
+                <button onclick="loadTopic('Exo.1|Lev.1', 'The Exodus', 'Deliverance and the giving of the Law.')" class="chrono-btn">2. The Exodus & Wilderness</button>
+                <button onclick="loadTopic('Josh.1|Judg.1', 'The Promised Land', 'Entering Canaan and the era of Judges.')" class="chrono-btn">3. Conquest & Settlement</button>
+                <button onclick="loadTopic('1Sam.1|1Kings.1|Psa.1', 'The Kingdom', 'The Rise of David and Solomon.')" class="chrono-btn">4. The United Monarchy</button>
+                <button onclick="loadTopic('Isa.1|Jer.1|Eze.1', 'The Prophets', 'Warnings and the Exile.')" class="chrono-btn">5. The Prophets & Exile</button>
+                <button onclick="loadTopic('Ezra.1|Neh.1', 'The Return', 'Rebuilding the Temple and Walls.')" class="chrono-btn">6. Restoration Era</button>
+                <button onclick="loadTopic('Mat.1|Mark.1|Luke.1|John.1', 'The Gospels', 'The life and ministry of Jesus.')" class="chrono-btn">7. The Advent of Christ</button>
+                <button onclick="loadTopic('Acts.1|Rom.1', 'The Early Church', 'The Holy Spirit and the Great Commission.')" class="chrono-btn">8. The Church Age</button>
+            </div>
         </section>
 
         <section class="glass-panel p-6 border-t-4 border-amber-400 bg-amber-50/10">
@@ -159,17 +154,19 @@
             <textarea id="journal-out" placeholder="Reflections stay here..." class="w-full h-48 p-4 rounded-xl border-none text-sm bg-white shadow-inner"></textarea>
             <button onclick="downloadNote()" class="w-full mt-3 bg-stone-800 text-white py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest">Download Reflection</button>
         </section>
-
-        <section class="glass-panel p-6 border-t-4 border-stone-800 bg-stone-50">
-            <h3 class="text-[10px] font-bold text-stone-600 uppercase mb-4">Chronological Aids</h3>
-            <div class="space-y-3">
-                <button onclick="loadTopic('Genesis.1|Job.1', 'Chrono Order', 'Genesis and Job are widely considered the oldest texts.')" class="w-full text-left p-3 bg-white border rounded-lg text-[10px] font-bold hover:border-teal-400">1. The Beginning (Gen & Job)</button>
-                <button onclick="loadTopic('Exodus.1|Leviticus.1', 'Chrono Order', 'The Law and the Wilderness.')" class="w-full text-left p-3 bg-white border rounded-lg text-[10px] font-bold hover:border-teal-400">2. The Exodus & Law</button>
-                <button onclick="loadTopic('1Samuel.1|Psalm.1', 'Chrono Order', 'The Rise of the Kingdom.')" class="w-full text-left p-3 bg-white border rounded-lg text-[10px] font-bold hover:border-teal-400">3. The United Kingdom</button>
-            </div>
-        </section>
     </div>
 </main>
+
+<footer class="mt-auto py-12 px-8 glass-panel rounded-none border-t bg-stone-900 text-stone-400">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest">
+        <p>© 2026 Jesus Friendship Fellowship</p>
+        <div class="flex gap-8">
+            <button onclick="alert('Terms: Walk in Love.')">Terms of Fellowship</button>
+            <button onclick="alert('Privacy: Your reflections are stored only on your device.')">Privacy Policy</button>
+            <a href="https://donate.stripe.com/9B64gB2SR5vn3Fk1z3ebu00" target="_blank" class="text-teal-500">❤ Support the Ministry</a>
+        </div>
+    </div>
+</footer>
 
 <script>
     function switchTool(tool) {
@@ -187,54 +184,39 @@
             iframe.src = "https://www.stepbible.org/?q=version=KJV&version=ESV|reference=John.1";
             t2.classList.add('tab-active');
         } else {
-            // Loading the STEP Bible's Reading Plan helper specifically
-            iframe.src = "https://www.stepbible.org/reading_plan.jsp";
+            // FIXED 404: Direct path to Reading Plans
+            iframe.src = "https://www.stepbible.org/html/plans.html";
             t3.classList.add('tab-active');
             t3.classList.remove('text-stone-400');
         }
     }
 
-    // TOPIC LOADING FUNCTION
     function loadTopic(ref, title, guideNote) {
-        const iframe = document.getElementById('study-iframe');
-        iframe.src = `https://www.stepbible.org/?q=version=KJV|reference=${ref}`;
-        
-        // Update Guide
+        document.getElementById('study-iframe').src = `https://www.stepbible.org/?q=version=KJV|reference=${ref}`;
         const bubble = document.getElementById('guide-bubble');
         const container = document.getElementById('guide-companion');
         bubble.innerText = `${title}: ${guideNote}`;
         container.classList.add('guide-active');
-        
-        // Voice response
-        const msg = new SpeechSynthesisUtterance(`${title}. ${guideNote}`);
-        msg.rate = 0.95;
-        window.speechSynthesis.speak(msg);
-
-        // Scroll back up to bible
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function triggerGuideSpeech(key) {
-        const container = document.getElementById('guide-companion');
-        container.classList.add('guide-active');
-        setTimeout(() => container.classList.remove('guide-active'), 6000);
+        document.getElementById('guide-companion').classList.add('guide-active');
+        setTimeout(() => document.getElementById('guide-companion').classList.remove('guide-active'), 6000);
     }
 
     function initializeFellowship() { setTimeout(() => triggerGuideSpeech('welcome'), 2000); }
 
-    // --- CONTINUOUS DICTATION LOGIC ---
+    // VOICE LOGIC
     let recognition;
     let isRecording = false;
-
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.onresult = (event) => {
             for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    document.getElementById('journal-out').value += event.results[i][0].transcript + " ";
-                }
+                if (event.results[i].isFinal) document.getElementById('journal-out').value += event.results[i][0].transcript + " ";
             }
         };
         recognition.onend = () => { if (isRecording) recognition.start(); };
@@ -260,7 +242,7 @@
         const blob = new Blob([text], {type:'text/plain'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "Friendship-Study-Notes.txt";
+        a.download = "Study-Notes.txt";
         a.click();
     }
 </script>
