@@ -17,12 +17,11 @@
             background: radial-gradient(circle at center, #f8fafc 0%, #e2e8f0 100%);
             font-family: 'Inter', system-ui, sans-serif;
             transition: all 0.5s ease;
-            overflow-x: hidden;
         }
 
         .bg-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('fww.jpg');
+            background-image: url('image_2.png');
             background-size: cover; background-attachment: fixed;
             opacity: 0; transition: opacity 2s ease; z-index: -1;
         }
@@ -34,25 +33,26 @@
             border-radius: 20px;
         }
 
-        /* Avatar Animation */
         .avatar-container {
-            width: 80px; height: 80px;
+            width: 70px; height: 70px;
             background: linear-gradient(135deg, var(--jff-teal), #2d3748);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            border: 4px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 3px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             animation: float 4s infinite ease-in-out;
             cursor: pointer;
         }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* Ticker */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        /* Recording Pulse */
+        .recording-active { animation: recording-glow 1.5s infinite; border-color: #ef4444; }
+        @keyframes recording-glow { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
         .ticker-wrap { width: 100%; height: 40px; background: var(--jff-teal); overflow: hidden; display: flex; align-items: center; }
         .ticker { display: inline-block; white-space: nowrap; animation: ticker 45s linear infinite; color: white; font-size: 0.8rem; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .study-mode .hide-study { display: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col" onload="siteReady()">
@@ -62,18 +62,15 @@
 <header class="p-4 md:p-6 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto glass-panel p-4 flex items-center justify-between shadow-sm">
         <div class="flex items-center gap-4">
-            <img src="JFFLogoPic.JPG" alt="Logo" class="w-14 h-14 rounded-full border border-white shadow-sm">
+            <img src="JFFLogoPic.JPG" alt="Logo" class="w-12 h-12 rounded-full border border-white">
             <div>
-                <h1 class="text-xl font-bold tracking-tight">Jesus Friendship Fellowship</h1>
-                <p class="text-[10px] uppercase tracking-widest text-teal-700 font-bold">A Closer Friendship</p>
+                <h1 class="text-lg font-bold tracking-tight">Jesus Friendship Fellowship</h1>
+                <p class="text-[10px] uppercase tracking-widest text-teal-700 font-bold">Divine Sanctuary</p>
             </div>
         </div>
-        <div class="flex items-center gap-4">
-            <button onclick="toggleFocus()" class="text-xs font-bold px-4 py-2 rounded-full border border-teal-200 bg-white hover:bg-teal-50 transition">Deep Study Mode</button>
-            <div class="hidden lg:block">
-                <iframe src="https://archive.org/embed/JesusFriendshipFellowshipMusic" width="180" height="25" frameborder="0"></iframe>
-            </div>
-            <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-5 py-2 rounded-full text-xs font-bold shadow-lg">WhatsApp Prayer</a>
+        <div class="flex items-center gap-3">
+            <button onclick="toggleFocus()" class="text-xs font-bold px-4 py-2 rounded-full border border-teal-200 bg-white hover:bg-teal-50 transition">Focus Mode</button>
+            <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-md">Prayer</a>
         </div>
     </div>
 </header>
@@ -81,21 +78,18 @@
 <main class="max-w-7xl mx-auto px-4 md:px-6 py-4 grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
     
     <div class="lg:col-span-8 space-y-6">
-        
-        <section class="glass-panel p-6 flex flex-col md:flex-row items-center gap-6">
-            <div class="avatar-container" onclick="aiSpeak()">
-                <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/>
-                </svg>
+        <section class="glass-panel p-5 flex items-center gap-6">
+            <div id="ai-avatar" class="avatar-container" onclick="aiSpeak()">
+                <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
             </div>
-            <div class="text-center md:text-left">
-                <h2 class="text-lg font-bold text-teal-900">Your Fellowship Guide</h2>
-                <p id="ai-status" class="text-sm text-stone-500 italic">"I am here to guide your study. Click me for your morning welcome."</p>
+            <div>
+                <h2 class="text-md font-bold text-teal-900">Fellowship Guide</h2>
+                <p id="ai-status" class="text-xs text-stone-500 italic">"I'm listening to your heart and the Word with you."</p>
             </div>
         </section>
 
         <section class="glass-panel overflow-hidden">
-            <div class="h-[750px]">
+            <div class="h-[700px]">
                 <iframe id="bible-iframe" src="https://www.stepbible.org/?q=version=ESV|reference=John.1" class="w-full h-full border-none"></iframe>
             </div>
         </section>
@@ -103,104 +97,142 @@
 
     <div class="lg:col-span-4 space-y-6">
         
-        <section class="glass-panel p-6 border-t-4 border-teal-600 bg-white/90 shadow-lg">
-            <h3 class="text-xs uppercase tracking-widest text-teal-600 mb-2 font-bold">Daily Friendship Reflection</h3>
-            <p id="v-text" class="text-xl font-serif italic text-stone-800 mb-3"></p>
-            <p id="v-thought" class="text-stone-600 mb-4 text-sm leading-relaxed"></p>
-            <button onclick="exploreScripture()" class="w-full bg-teal-700 text-white py-2 rounded-lg text-xs font-semibold hover:bg-teal-800 transition">Update Bible to this Passage</button>
+        <section class="glass-panel p-6 border-t-4 border-amber-400 bg-amber-50/30">
+            <h3 class="text-xs uppercase tracking-widest text-amber-700 mb-3 font-bold flex items-center gap-2">
+                <span class="flex h-2 w-2 rounded-full bg-amber-500"></span> Voice Reflection Journal
+            </h3>
+            
+            <div id="record-btn-container" class="mb-4">
+                <button id="start-record" onclick="toggleRecording()" class="w-full flex items-center justify-center gap-2 bg-white border-2 border-amber-200 py-3 rounded-xl text-sm font-bold text-amber-800 hover:bg-amber-100 transition">
+                    <svg id="mic-icon" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                    <span id="record-text">Begin Spoken Reflection</span>
+                </button>
+            </div>
+
+            <textarea id="journal-text" placeholder="Your voice will appear here as text..." class="w-full p-4 h-40 text-sm rounded-xl border-none shadow-inner bg-white/80 focus:ring-2 ring-amber-200 mb-3"></textarea>
+            
+            <div class="flex gap-2">
+                <button onclick="saveEntry()" class="flex-1 bg-teal-700 text-white py-2 rounded-lg text-xs font-bold">Save to Site</button>
+                <button onclick="downloadJournal()" class="px-3 bg-stone-200 text-stone-700 py-2 rounded-lg text-xs font-bold">Download .txt</button>
+                <button onclick="clearJournal()" class="px-3 text-stone-400 hover:text-red-500 transition">✕</button>
+            </div>
         </section>
 
-        <section class="glass-panel p-6">
-            <h2 class="text-sm font-bold text-stone-800 mb-4">Community Reports</h2>
-            <div id="community-gate">
-                <input type="text" id="member-name" placeholder="Name" class="w-full p-2 rounded-lg border mb-2 text-sm bg-stone-50">
-                <button onclick="unlockCommunity()" class="w-full bg-stone-800 text-white py-2 rounded-lg text-xs font-bold">Access Board</button>
-            </div>
-            <div id="community-main" class="hidden h-40 overflow-y-auto text-xs italic text-stone-500">
-                Waiting for moderated reports...
-            </div>
+        <section class="glass-panel p-6 border-t-4 border-teal-600">
+            <h3 class="text-xs uppercase tracking-widest text-teal-600 mb-2 font-bold">Daily Reflection</h3>
+            <p id="v-text" class="text-lg font-serif italic text-stone-800 mb-2">"John 15:15"</p>
+            <p id="v-thought" class="text-stone-600 text-xs leading-relaxed mb-4">Jesus calls you 'Friend'. This invitation changes how we approach His presence today.</p>
+            <button onclick="updateBible()" class="w-full bg-stone-100 py-2 rounded text-[10px] font-bold uppercase tracking-wider text-stone-500 hover:bg-teal-50">Sync Bible Hub</button>
         </section>
 
-        <section class="glass-panel p-6 bg-stone-900 text-white shadow-xl">
-            <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span> Fellowship Hall
-            </h2>
-            <button onclick="initJitsi()" class="w-full py-3 bg-teal-500 text-white rounded-xl font-bold text-sm shadow-md">Enter Live Meeting</button>
-            <div id="jitsi-area" class="mt-4"></div>
+        <section class="glass-panel p-6 bg-stone-900 text-white">
+            <h2 class="text-sm font-bold mb-3">Fellowship Hall</h2>
+            <button onclick="initJitsi()" class="w-full py-2 bg-teal-500 text-white rounded-lg font-bold text-xs">Join Video</button>
+            <div id="jitsi-area" class="mt-3"></div>
         </section>
     </div>
 </main>
 
-<div class="ticker-wrap mt-10">
-    <div class="ticker" id="verse-ticker">
-        "I have called you friends..." — John 15:15 • "A friend loves at all times..." — Proverbs 17:17 • "The Lord spoke to Moses face to face, as a friend..." — Exodus 33:11
+<div class="ticker-wrap mt-8">
+    <div class="ticker">
+        "I have called you friends..." — John 15:15 • "A friend loves at all times..." — Proverbs 17:17 • "Be still and know that I am God..." — Psalm 46:10
     </div>
 </div>
 
-<footer class="py-12 px-8 glass-panel rounded-none border-t border-white/20">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 text-sm text-stone-600">
-        <div>
-            <h2 class="font-bold text-stone-800 text-lg">Jesus Friendship Fellowship</h2>
-            <p class="mt-4" onclick="promptAdmin()">© 2026 Jesus Friendship Fellowship. All rights reserved.</p>
-        </div>
-        <div class="flex flex-wrap gap-8 font-semibold items-center">
-            <button onclick="showDoc('Terms', 'JFF is a sanctuary for spiritual growth. Peace and love are our only rules.')">Terms</button>
-            <button onclick="showDoc('Privacy', 'Your prayer requests and fellowship remain private.')">Privacy</button>
-            <a href="https://donate.stripe.com/9B64gB2SR5vn3Fk1z3ebu00" target="_blank" class="text-teal-700 hover:text-teal-900 transition flex items-center gap-1">
-                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                Give a Gift
-            </a>
+<footer class="py-10 px-8 glass-panel rounded-none border-t">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-stone-500">
+        <p>© 2026 Jesus Friendship Fellowship</p>
+        <div class="flex gap-6 font-bold">
+            <button onclick="alert('Stored locally in your browser.')">My Saved Reflections</button>
+            <a href="https://donate.stripe.com/9B64gB2SR5vn3Fk1z3ebu00" target="_blank" class="text-teal-700 flex items-center gap-1">❤ Give a Gift</a>
         </div>
     </div>
 </footer>
 
 <script>
-    function siteReady() {
-        document.getElementById('bg-img').style.opacity = "1";
+    // 1. Voice Recognition Logic
+    let recognition;
+    let isRecording = false;
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            document.getElementById('journal-text').value = transcript;
+        };
+
+        recognition.onend = () => {
+            if (isRecording) recognition.start(); // Keep alive if we didn't manually stop
+        };
+    }
+
+    function toggleRecording() {
+        if (!recognition) return alert("Speech recognition not supported in this browser.");
         
-        const current = {v: "John 15:15", ref: "John.15.15", t: "Jesus calls you 'Friend'. This invitation changes how we approach His presence today."};
-        document.getElementById('v-text').innerText = `"${current.v}"`;
-        document.getElementById('v-thought').innerText = current.t;
-    }
+        const btn = document.getElementById('start-record');
+        const text = document.getElementById('record-text');
+        const avatar = document.getElementById('ai-avatar');
 
-    function aiSpeak() {
-        const msg = new SpeechSynthesisUtterance();
-        msg.text = "Hello! Welcome back to the Jesus Friendship Fellowship sanctuary. I am your fellowship guide. Your daily reflection is now available on the right sidebar, and you can focus on the Word in the center hub. How can I help you today?";
-        msg.rate = 0.9;
-        window.speechSynthesis.speak(msg);
-        document.getElementById('ai-status').innerText = "Guide is speaking...";
-        setTimeout(() => { document.getElementById('ai-status').innerText = "I am listening for your heart..."; }, 12000);
-    }
-
-    function exploreScripture() {
-        document.getElementById('bible-iframe').src = `https://www.stepbible.org/?q=version=ESV|reference=John.15.15`;
-        document.getElementById('bible-iframe').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function toggleFocus() {
-        document.body.classList.toggle('study-mode');
-        if(document.body.classList.contains('study-mode')) {
-            const m = new SpeechSynthesisUtterance("Distractions dimmed. Focusing on the Word.");
-            window.speechSynthesis.speak(m);
+        if (!isRecording) {
+            recognition.start();
+            isRecording = true;
+            btn.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
+            text.innerText = "Stop & Process Voice";
+            avatar.classList.add('recording-active');
+            document.getElementById('ai-status').innerText = "I am listening to your reflection...";
+        } else {
+            recognition.stop();
+            isRecording = false;
+            btn.classList.remove('bg-red-50', 'border-red-200', 'text-red-700');
+            text.innerText = "Begin Spoken Reflection";
+            avatar.classList.remove('recording-active');
+            document.getElementById('ai-status').innerText = "Reflection captured.";
         }
     }
 
-    function unlockCommunity() {
-        document.getElementById('community-gate').classList.add('hidden');
-        document.getElementById('community-main').classList.remove('hidden');
+    // 2. Storage & Export
+    function saveEntry() {
+        const content = document.getElementById('journal-text').value;
+        if (!content) return;
+        localStorage.setItem('jff_reflection_' + Date.now(), content);
+        alert("Reflection saved privately to your browser.");
+    }
+
+    function downloadJournal() {
+        const text = document.getElementById('journal-text').value;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const anchor = document.createElement('a');
+        anchor.download = 'JFF-Reflection-' + new Date().toLocaleDateString() + '.txt';
+        anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
+        anchor.click();
+    }
+
+    function clearJournal() {
+        if(confirm("Clear this reflection?")) document.getElementById('journal-text').value = "";
+    }
+
+    // 3. Helpers
+    function siteReady() { document.getElementById('bg-img').style.opacity = "1"; }
+    
+    function aiSpeak() {
+        const msg = new SpeechSynthesisUtterance("Welcome back to the Jesus Friendship Fellowship. I am ready to hear your thoughts. Click the gold button on the right to start your voice journal.");
+        window.speechSynthesis.speak(msg);
+    }
+
+    function updateBible() {
+        document.getElementById('bible-iframe').src = "https://www.stepbible.org/?q=version=ESV|reference=John.15.15";
     }
 
     function initJitsi() {
-        new JitsiMeetExternalAPI("meet.jit.si", {
-            roomName: "JFF_Main_Fellowship_2026",
-            width: '100%', height: 400,
-            parentNode: document.querySelector('#jitsi-area'),
-            configOverwrite: { prejoinPageEnabled: true }
-        });
-        event.target.style.display = 'none';
+        new JitsiMeetExternalAPI("meet.jit.si", { roomName: "JFF_2026_Hall", width: '100%', height: 350, parentNode: document.querySelector('#jitsi-area') });
     }
-
-    function showDoc(title, text) { alert(title + ": " + text); }
 </script>
 
 </body>
