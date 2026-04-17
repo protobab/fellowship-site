@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jesus Friendship Fellowship</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src='https://meet.jit.si/external_api.js'></script>
+</head>
+<body class="bg-stone-50 text-stone-800 font-serif">
+
+    <header class="p-8 text-center bg-white border-b border-stone-200">
+        <h1 class="text-3xl font-light tracking-widest uppercase">Jesus Friendship Fellowship</h1>
+        <p class="italic mt-2 text-stone-500">"Where two or three are gathered in my name..."</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6 space-y-12">
+        
+        <section id="bible-study" class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+            <h2 class="text-2xl mb-4">Daily Bread & Study</h2>
+            <div class="flex gap-2 mb-4">
+                <input id="bible-ref" type="text" placeholder="e.g. John 3:16" class="border p-2 flex-grow rounded">
+                <button onclick="fetchScripture()" class="bg-stone-800 text-white px-6 py-2 rounded hover:bg-stone-700">Read</button>
+            </div>
+            <div id="bible-display" class="prose italic text-lg text-stone-700 min-h-[100px]">
+                Search a verse to begin your reflection...
+            </div>
+            <textarea placeholder="Write your private notes here (Saved locally)..." id="user-notes" class="w-full mt-4 p-4 border rounded bg-stone-50 h-32"></textarea>
+        </section>
+
+        <section id="fellowship-hall" class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+            <h2 class="text-2xl mb-2">Fellowship Hall</h2>
+            <p class="mb-4 text-stone-600">Join our live prayer and discussion room below.</p>
+            <div id="jitsi-container" class="w-full h-[500px] bg-stone-200 rounded"></div>
+        </section>
+
+    </main>
+
+    <script>
+        // BIBLE ENGINE
+        async function fetchScripture() {
+            const ref = document.getElementById('bible-ref').value.toLowerCase().replace(/ /g, '/');
+            const display = document.getElementById('bible-display');
+            display.innerText = "Loading Word...";
+            try {
+                // Using wldeh Bible API (KJV)
+                const res = await fetch(`https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/en-kjv/books/${ref}.json`);
+                const data = await res.json();
+                display.innerText = `"${data.text}"`;
+            } catch (e) {
+                display.innerText = "Verse not found. Try format: 'John/3/16'";
+            }
+        }
+
+        // JITSI SETUP
+        const domain = "meet.jit.si";
+        const options = {
+            roomName: "JesusFriendshipFellowship_Global",
+            parentNode: document.querySelector('#jitsi-container'),
+            interfaceConfigOverwrite: { TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat', 'raisehand'] }
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+
+        // LOCAL NOTES SAVING
+        const notes = document.getElementById('user-notes');
+        notes.value = localStorage.getItem('my_fellowship_notes') || "";
+        notes.oninput = () => localStorage.setItem('my_fellowship_notes', notes.value);
+    </script>
+
+    <script>
+    window.chatbaseConfig = { chatbotId: "YOUR_CHATBOT_ID" };
+    </script>
+    <script src="https://www.chatbase.co/embed.min.js" chatbotId="YOUR_CHATBOT_ID" defer></script>
+
+</body>
+</html>
