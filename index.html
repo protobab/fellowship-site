@@ -100,98 +100,102 @@
                 <label class="block text-[10px] font-bold text-stone-500 uppercase">Contact Email / WhatsApp</label>
                 <input type="text" name="contact" required class="w-full mt-1 p-2 bg-stone-50 border rounded-lg text-sm">
             </div>
-            
             <div class="checkbox-group">
                 <label class="block text-[10px] font-bold text-stone-500 uppercase mb-2">Areas of Interest</label>
-                <label><input type="checkbox" name="interest" value="Prayer Team"> Prayer Team & Intercession</label>
-                <label><input type="checkbox" name="interest" value="Technical"> Technical Support & Media</label>
-                <label><input type="checkbox" name="interest" value="Content"> Content Creation / Writing</label>
-                <label><input type="checkbox" name="interest" value="Outreach"> Local Outreach & Evangelism</label>
-                <label><input type="checkbox" name="interest" value="Admin"> Administration & Organizing</label>
+                <label><input type="checkbox" name="interest" value="Prayer Team"> Prayer Team</label>
+                <label><input type="checkbox" name="interest" value="Technical"> Technical Support</label>
+                <label><input type="checkbox" name="interest" value="Content"> Content Creation</label>
+                <label><input type="checkbox" name="interest" value="Outreach"> Local Outreach</label>
             </div>
-
             <div>
                 <label class="block text-[10px] font-bold text-stone-500 uppercase">Other Skills / Comments</label>
-                <textarea name="message" placeholder="Tell us how you would like to help..." class="w-full mt-1 p-2 bg-stone-50 border rounded-lg text-sm h-20"></textarea>
+                <textarea name="message" class="w-full mt-1 p-2 bg-stone-50 border rounded-lg text-sm h-20"></textarea>
             </div>
-            
-            <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-md">Apply to Volunteer</button>
+            <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest">Apply to Volunteer</button>
         </form>
     </div>
 </div>
 
 <div id="guide-companion">
     <div id="guide-bubble" class="speech-bubble">Jesus is calling you today...</div>
-    <div class="avatar-body" onclick="triggerGuideSpeech('default')">
+    <div class="avatar-body" onclick="triggerGuideSpeech()">
         <img src="https://ui-avatars.com/api/?name=JFF+Guide&background=1e646e&color=fff" alt="Guide">
     </div>
 </div>
 
 <main class="max-w-7xl mx-auto px-4 md:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
     
-    <div class="lg:col-span-8 space-y-4">
-        <div class="flex items-center justify-between bg-white/50 p-2 rounded-t-xl border-b">
-            <h2 class="text-xs font-bold text-teal-800 px-4 uppercase tracking-widest">Study Hub</h2>
-            <div class="flex gap-4 text-[10px] uppercase font-bold">
-                <button id="tab-kjv" onclick="switchTool('kjv')" class="pb-1 tab-active">KJV Bible</button>
-                <button id="tab-parallel" onclick="switchTool('parallel')" class="pb-1 text-stone-400">Parallel View</button>
-                <button id="tab-salvation" onclick="playSalvation()" class="pb-1 text-amber-600 font-black border-2 border-amber-200 px-2 rounded-md">✨ Salvation</button>
-            </div>
-        </div>
+    <div class="lg:col-span-8 space-y-8">
         
-        <section class="glass-panel overflow-hidden border shadow-inner bg-white relative">
-            <div id="salvation-overlay" class="hidden absolute inset-0 z-50 bg-white/95 backdrop-blur-md flex flex-col items-center justify-start p-6 md:p-12 text-center overflow-y-auto">
-                <button onclick="closeSalvation()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-800 text-2xl font-bold">✕</button>
-                <h3 class="text-2xl font-serif italic text-teal-900 mb-6">A New Heart</h3>
-                <div class="max-w-xl bg-teal-50/50 p-6 rounded-2xl border border-teal-100 text-stone-800 text-sm italic font-serif mb-6 leading-relaxed">
-                    <p class="mb-4">"Heavenly Father, thank You for sending Jesus to die in my place. I repent of my sins and invite Jesus into my heart to be my personal Lord and Saviour. Amen."</p>
+        <div class="space-y-4">
+            <div class="flex items-center justify-between bg-white/50 p-2 rounded-t-xl border-b">
+                <h2 class="text-xs font-bold text-teal-800 px-4 uppercase tracking-widest">Study Hub</h2>
+                <div class="flex gap-4 text-[10px] uppercase font-bold">
+                    <button id="tab-kjv" onclick="switchTool('kjv')" class="pb-1 tab-active">KJV Bible</button>
+                    <button id="tab-parallel" onclick="switchTool('parallel')" class="pb-1 text-stone-400">Parallel View</button>
+                    <button id="tab-salvation" onclick="playSalvation()" class="pb-1 text-amber-600 font-black border-2 border-amber-200 px-2 rounded-md">✨ Salvation</button>
                 </div>
-                <audio id="salvation-audio" controls class="mb-8 w-full max-w-md"><source src="prayerofsalvation.wav" type="audio/wav"></audio>
-                <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold uppercase shadow-xl">Contact us on WhatsApp</a>
             </div>
-            
-            <div class="h-[700px]">
-                <iframe id="study-iframe" src="https://www.stepbible.org/?q=version=KJV|reference=John.1" class="w-full h-full border-none"></iframe>
+            <section class="glass-panel overflow-hidden border shadow-inner bg-white relative">
+                <div id="salvation-overlay" class="hidden absolute inset-0 z-50 bg-white/95 backdrop-blur-md flex flex-col items-center justify-start p-6 md:p-12 text-center overflow-y-auto">
+                    <button onclick="closeSalvation()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-800 text-2xl font-bold">✕</button>
+                    <h3 class="text-2xl font-serif italic text-teal-900 mb-6">A New Heart</h3>
+                    <div class="max-w-xl bg-teal-50/50 p-8 rounded-2xl border border-teal-100 text-stone-800 text-lg italic font-serif mb-8 leading-relaxed shadow-sm">
+                        <p class="mb-4">"Heavenly Father, thank You for sending Jesus to die in my place. I repent of my sins and invite Jesus into my heart to be my personal Lord and Saviour. Amen."</p>
+                    </div>
+                    <a href="https://wa.me/2349031167282" target="_blank" class="bg-emerald-600 text-white px-10 py-4 rounded-2xl font-bold uppercase shadow-xl transform transition hover:scale-105">Tell us on WhatsApp</a>
+                </div>
+                <div class="h-[600px]">
+                    <iframe id="study-iframe" src="https://www.stepbible.org/?q=version=KJV|reference=John.1" class="w-full h-full border-none"></iframe>
+                </div>
+            </section>
+        </div>
+
+        <section class="glass-panel p-6 border-t-4 border-amber-400 bg-amber-50/10">
+            <h3 class="text-[10px] font-bold uppercase text-amber-800 mb-4 tracking-widest">Spoken Reflection Journal</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow">
+                    <textarea id="journal-out" placeholder="Your reflections from the Word today..." class="w-full h-64 p-4 rounded-xl border-stone-200 text-sm bg-white focus:ring-1 ring-amber-300 shadow-inner"></textarea>
+                </div>
+                <div class="md:w-48 space-y-3">
+                    <button id="voice-btn" onclick="toggleVoiceJournal()" class="w-full py-4 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-900 shadow-sm hover:bg-amber-50">🎙 START DICTATING</button>
+                    <button onclick="downloadNote()" class="w-full py-3 bg-stone-800 text-white rounded-xl text-[9px] font-bold uppercase tracking-widest">Save Text File</button>
+                    <p class="text-[9px] text-amber-700 italic">Journal entries are private to your browser and not saved on our servers.</p>
+                </div>
             </div>
         </section>
 
-        <section class="glass-panel p-6 mt-8">
-            <h3 class="text-xs font-bold text-teal-800 uppercase tracking-widest mb-6">Community Question Board</h3>
+        <section class="glass-panel p-6">
+            <h3 class="text-xs font-bold text-teal-800 uppercase tracking-widest mb-6">Community Board</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-4">
-                    <h4 class="text-[10px] font-bold text-stone-400 uppercase tracking-tighter">Approved Discussions</h4>
-                    <div id="public-board" class="space-y-4">
-                        <div class="p-4 bg-white border rounded-xl shadow-sm border-l-4 border-l-teal-500">
-                            <p class="text-xs font-bold text-teal-800 mb-1">Q: Is the KJV the best for deep study?</p>
-                            <p class="text-xs text-stone-600 leading-relaxed italic">"While we use many versions, the KJV provides a beautiful, rhythmic foundation that has anchored believers for centuries. Parallel study helps clarify ancient words."</p>
-                        </div>
+                    <h4 class="text-[10px] font-bold text-stone-400 uppercase">Recent Q&A</h4>
+                    <div id="public-board" class="p-4 bg-white border rounded-xl shadow-sm border-l-4 border-l-teal-500">
+                        <p class="text-xs font-bold text-teal-800 mb-1">Q: How do I know I am Hearing God?</p>
+                        <p class="text-xs text-stone-600 leading-relaxed italic">"His voice always aligns with His Word (the Bible) and brings a peace that the world cannot give."</p>
                     </div>
                 </div>
                 <div class="bg-stone-50 p-5 rounded-2xl border border-stone-200">
                     <h4 class="text-[10px] font-bold text-teal-700 uppercase mb-3">Ask Your Question Privately</h4>
                     <form action="https://formspree.io/f/livesinmotionmedia@gmail.com" method="POST">
-                        <input type="text" name="name" placeholder="Your Identity (Name/Alias)" required class="w-full p-2 mb-2 text-xs border rounded-lg">
-                        <textarea name="question" placeholder="Your biblical or spiritual question..." required class="w-full p-2 mb-3 text-xs border rounded-lg h-24"></textarea>
-                        <button type="submit" class="w-full bg-stone-800 text-white py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-sm">Submit to Fellowship</button>
-                        <input type="hidden" name="_subject" value="New Community Board Question">
+                        <input type="text" name="name" placeholder="Your Identity" required class="w-full p-2 mb-2 text-xs border rounded-lg">
+                        <textarea name="question" placeholder="Your question..." required class="w-full p-2 mb-3 text-xs border rounded-lg h-24"></textarea>
+                        <button type="submit" class="w-full bg-stone-800 text-white py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest">Submit to Moderator</button>
                     </form>
-                    <p class="text-[9px] text-stone-400 mt-3 italic leading-tight">Questions go directly to the Fellowship Moderator. If chosen, the question and answer will be posted to the board above.</p>
                 </div>
             </div>
         </section>
     </div>
 
     <div class="lg:col-span-4 space-y-6">
-        <section class="glass-panel p-6 bg-blue-50 border-t-4 border-blue-500">
-            <h3 class="text-[10px] font-bold text-blue-800 uppercase mb-2">Live Fellowship</h3>
-            <p class="text-xs text-stone-800 mb-1 font-bold">Apr 17, 2026 @ 06:00 PM London</p>
-            <a href="https://us06web.zoom.us/meeting/register/WP5ilOUZTXOy1dBly1lZOg" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] tracking-widest shadow">REGISTER FOR ZOOM</a>
-        </section>
-
-        <section class="glass-panel p-6 border-t-4 border-amber-400 bg-amber-50/10">
-            <h3 class="text-[10px] font-bold uppercase text-amber-800 mb-4">Reflection Journal</h3>
-            <button id="voice-btn" onclick="toggleVoiceJournal()" class="w-full py-3 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-900 mb-3">🎙 Start Spoken Notes</button>
-            <textarea id="journal-out" class="w-full h-48 p-4 rounded-xl border-none text-sm bg-white focus:ring-1 ring-amber-300 shadow-inner"></textarea>
+        <section class="glass-panel p-6 border-t-4 border-stone-800 bg-stone-50">
+            <h3 class="text-[10px] font-bold text-stone-600 uppercase mb-4 tracking-widest">Chronological Walk</h3>
+            <div class="space-y-2">
+                <button onclick="loadTopic('Gen.1|Job.1', 'Creation')" class="chrono-btn">1. Creation & Ancient Beginnings</button>
+                <button onclick="loadTopic('Exo.1|Lev.1', 'Exodus')" class="chrono-btn">2. The Exodus & Wilderness</button>
+                <button onclick="loadTopic('1Sam.1|Psa.1', 'Kingdom')" class="chrono-btn">3. The Kingdom & Psalms</button>
+                <button onclick="loadTopic('Mat.1|John.1', 'Gospels')" class="chrono-btn">4. The Life of Christ</button>
+            </div>
         </section>
     </div>
 </main>
@@ -200,13 +204,17 @@
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-widest">
         <p>© 2026 Jesus Friendship Fellowship</p>
         <div class="flex gap-8">
-            <button onclick="toggleVolunteerForm()" class="text-teal-400 hover:text-teal-200 transition">Volunteer Portal</button>
-            <button onclick="alert('Reflections are private to your device.')">Privacy</button>
+            <button onclick="toggleVolunteerForm()" class="text-teal-400">Volunteer</button>
+            <button onclick="showPrivacy()" class="hover:text-white transition">Privacy & Compliance</button>
         </div>
     </div>
 </footer>
 
 <script>
+    function showPrivacy() {
+        alert("PRIVACY & DATA COMPLIANCE:\n\n1. Data Sovereignty: Your Voice Journal reflections are stored locally in your browser's memory. We do not transmit, view, or store your personal notes on our servers.\n\n2. Communications: Volunteer and Question forms are processed via Formspree and delivered to livesinmotionmedia@gmail.com. We do not sell or share your contact details.\n\n3. Cookies: We use only functional tools to maintain your session. No tracking or advertising cookies are utilized.\n\n4. Content: All biblical content is provided via StepBible API under open-access spiritual provision.");
+    }
+
     function switchTool(tool) {
         const iframe = document.getElementById('study-iframe');
         const overlay = document.getElementById('salvation-overlay');
@@ -215,9 +223,10 @@
         else { iframe.src = "https://www.stepbible.org/?q=version=KJV&version=ESV|reference=John.1"; }
     }
 
-    function playSalvation() { document.getElementById('salvation-overlay').classList.remove('hidden'); document.getElementById('salvation-audio').play(); }
-    function closeSalvation() { document.getElementById('salvation-overlay').classList.add('hidden'); document.getElementById('salvation-audio').pause(); }
+    function playSalvation() { document.getElementById('salvation-overlay').classList.remove('hidden'); }
+    function closeSalvation() { document.getElementById('salvation-overlay').classList.add('hidden'); }
     function toggleVolunteerForm() { document.getElementById('volunteer-overlay').classList.toggle('hidden'); }
+    function loadTopic(ref) { document.getElementById('study-iframe').src = `https://www.stepbible.org/?q=version=KJV|reference=${ref}`; }
 
     function triggerGuideSpeech() {
         document.getElementById('guide-companion').classList.add('guide-active');
@@ -231,9 +240,9 @@
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
-        recognition.onresult = (event) => {
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) document.getElementById('journal-out').value += event.results[i][0].transcript + " ";
+        recognition.onresult = (e) => {
+            for (let i = e.resultIndex; i < e.results.length; ++i) {
+                if (e.results[i].isFinal) document.getElementById('journal-out').value += e.results[i][0].transcript + " ";
             }
         };
         recognition.onend = () => { if (isRecording) recognition.start(); };
@@ -243,13 +252,24 @@
         const btn = document.getElementById('voice-btn');
         if (!isRecording) {
             recognition.start(); isRecording = true;
-            btn.innerText = "🛑 PAUSING... (LISTENING)";
+            btn.innerText = "🛑 STOPPING... (LISTENING)";
+            btn.classList.add('bg-red-50');
         } else {
             recognition.stop(); isRecording = false;
-            btn.innerText = "🎙 START SPOKEN NOTES";
+            btn.innerText = "🎙 START DICTATING";
+            btn.classList.remove('bg-red-50');
         }
+    }
+
+    function downloadNote() {
+        const blob = new Blob([document.getElementById('journal-out').value], {type:'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "JFF-Reflections.txt";
+        a.click();
     }
 </script>
 
 </body>
 </html>
+
